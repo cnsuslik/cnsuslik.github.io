@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>散触老黄历</title>
+    <script
+      id="jquery_183"
+      type="text/javascript"
+      class="library"
+      src="https://libs.baidu.com/jquery/1.8.3/jquery.min.js"
+    ></script>
+    <script type="text/javascript">
+      //
+
+      /*
+       * 注意：本程序中的“随机”都是伪随机概念，以当前的天为种子。
+       */
+      function random(dayseed, indexseed) {
+        var n = dayseed % 11117;
+        for (var i = 0; i < 100 + indexseed; i++) {
+          n = n * n;
+          n = n % 11117; // 11117 是个质数
+        }
+        return n;
+      }
+
+      function namehash(text) {
+        var ex = 0;
+        return ex;
+      }
+
+      var today = new Date();
+      var iday =
+        today.getFullYear() * 10000 +
+        (today.getMonth() + 1) * 100 +
+        today.getDate();
+
+      var weeks = ["日", "一", "二", "三", "四", "五", "六"];
+      var directions = [
+        "北方",
+        "东北方",
+        "东方",
+        "东南方",
+        "南方",
+        "西南方",
+        "西方",
+        "西北方",
+        "地板",
+        "天花板",
+      ];
+      var bbq = [
+        "边郊镇",
+        "边郊镇",
+        "边郊镇",
+        "边郊镇",
+        "亚斯拉尼站",
+        "亚斯拉尼站",
+        "亚斯拉尼站",
+        "亚斯拉尼站",
+        "雷转质矿场",
+        "雷转质矿场",
+        "雷转质矿场",
+        "雷转质矿场",
+        "亚斯拉尼荒野东部",
+        "旧亚历山德里亚",
+        "永护塔外围",
+        "台夏帕尼废村",
+        "落雷场",
+        "尤派光晕农地",
+      ];
+      var activities = [
+        {
+          name: "单农300",
+          good: "成为299巨大遗产继承人！",
+          bad: "农了1800都没气",
+          weekend: true,
+        },
+        {
+          name: "过饱和式农怪",
+          good: "好耶，才补两只就出了",
+          bad: "又补了300，怎么还没气",
+          weekend: true,
+        },
+        {
+          name: "合农",
+          good: "分工合作，干活不累",
+          bad: "队友觉得是你把S吓跑了",
+          weekend: true,
+        },
+        {
+          name: "排点",
+          good: "一路顺畅光速下班",
+          bad: "追杀花篮四小时也没排完",
+          weekend: true,
+        },
+        {
+          name: "守床位",
+          good: "愿者上钩！",
+          bad: "镇压王就是你",
+          weekend: true,
+        },
+        {
+          name: "丢%v",
+          good: "随手一丢就出货",
+          bad: "舍弃了幻梦武器箱",
+          weekend: true,
+        },
+        {
+          name: "农%t",
+          good: "海量遗产等你来领",
+          bad: "你就是遗产",
+          weekend: true,
+        },
+        {
+          name: "喂水蛭",
+          good: "一发口锥见图图",
+          bad: "你被冰海天使打倒了",
+          weekend: true,
+        },
+        {
+          name: "农南萨",
+          good: "今天的南萨地图格外清爽",
+          bad: "噔噔咚，沙漠皇帝失败！",
+          weekend: true,
+        },
+        {
+          name: "喂水蛭",
+          good: "一发口锥见图图",
+          bad: "你被冰海天使打倒了",
+          weekend: true,
+        },
+        {
+          name: "组织芒批",
+          good: "光明芒批头子就是你！",
+          bad: "一路暗黑全寄",
+          weekend: true,
+        },
+        {
+          name: "采棉花",
+          good: "成功吃到路人遗产",
+          bad: "加油啊，采棉花的大哥哥们",
+          weekend: true,
+        },
+        {
+          name: "挖刚子",
+          good: "刚好就差你这一轮",
+          bad: "单挖10个窗口都没动静",
+          weekend: true,
+        },
+        {
+          name: "挖护土",
+          good: "一镐下去就出货",
+          bad: "路人豆芽随便一挖就出",
+          weekend: true,
+        },
+        {
+          name: "挖牛牛",
+          good: "第一发就出气",
+          bad: "都挖了三轮了，真的不是丢了吗",
+          weekend: true,
+        },
+        {
+          name: "挖G7",
+          good: "单图龙低，开图苍白！",
+          bad: "花呗借款也触不出苍白骑士",
+          weekend: true,
+        },
+        {
+          name: "触阿格里帕",
+          good: "一发摩杜纳，开图出气！",
+          bad: "诗学图没了，不会要挖G5吧……",
+          weekend: true,
+        },
+        {
+          name: "站岗伽洛克",
+          good: "成功接生早产jlk",
+          bad: "站到强制发现丢了！",
+          weekend: true,
+        },
+        {
+          name: "钓%l",
+          good: "刚坐下就是鱼王竿",
+          bad: "半天不舔，舔了不起，起了没气",
+          weekend: true,
+        },
+        {
+          name: "坐鸟车",
+          good: "一发入魂！",
+          bad: "鸟房赚麻了",
+          weekend: true,
+        },
+        {
+          name: "蹲龙蛋",
+          good: "轻松五连无压力",
+          bad: "为什么！为什么又是铁王八！",
+          weekend: true,
+        },
+        {
+          name: "炸多智兽",
+          good: "一炸一个准",
+          bad: "装备耐久度降为0……",
+          weekend: true,
+        },
+        {
+          name: "炸阿姆斯特朗",
+          good: "一炸一个准",
+          bad: "装备耐久度降为0……",
+          weekend: true,
+        },
+        {
+          name: "触萨法特",
+          good: "吉田概率学不存在",
+          bad: "吉田概率学魅力时刻",
+          weekend: true,
+        },
+        {
+          name: "蹲饮火魔",
+          good: "救火救得快，山哥来得早",
+          bad: "喜报：山谢亚强制了",
+          weekend: true,
+        },
+        {
+          name: "搓牛排",
+          good: "牛排仙人就是你",
+          bad: "不知不觉又搓满一组999",
+          weekend: true,
+        },
+        {
+          name: "吹雪",
+          good: "嘀嘀嘀，现在为你播送天气预报！",
+          bad: "雪是喷到强制的，气是一点都没的",
+          weekend: true,
+        },
+        {
+          name: "触理符S",
+          good: "一发入魂！",
+          bad: "受理额度不足……",
+          weekend: true,
+        },
+        {
+          name: "触小S",
+          good: "你就是今天的小S守护神！",
+          bad: "怎么小S都不出货？",
+          weekend: true,
+        },
+        {
+          name: "触小S",
+          good: "你就是今天的小S守护神！",
+          bad: "怎么小S都不出货？",
+          weekend: true,
+        },
+        {
+          name: "触5S",
+          good: "你就是今天的诺弗兰特守护神",
+          bad: "笑死，根本不出货",
+          weekend: true,
+        },
+        {
+          name: "触6S",
+          good: "你就是今天的晓月守护神",
+          bad: "笑死，根本不出货",
+          weekend: true,
+        },
+        {
+          name: "触7S",
+          good: "一个人触了一波7S连车",
+          bad: "笑死，根本不出货",
+          weekend: true,
+        },
+        {
+          name: "触石板",
+          good: "刚来就有石人英雄",
+          bad: "等到天荒地老都只有霸道归来者",
+          weekend: true,
+        },
+        {
+          name: "和斯奎克约会",
+          good: "拒绝动物表演！",
+          bad: "路人豆芽不知什么时候把你skk打了",
+          weekend: true,
+        },
+        {
+          name: "低进度梭哈",
+          good: "什么叫高触！",
+          bad: "还是不要追梦了吧",
+          weekend: true,
+        },
+        {
+          name: "中等进度赌脸",
+          good: "40%值得一试",
+          bad: "正态分布什么的根本不存在",
+          weekend: true,
+        },
+        {
+          name: "高进度会诊",
+          good: "来的时候S刚好回家",
+          bad: "警惕高进度栽种！",
+          weekend: true,
+        },
+        {
+          name: "跟A车",
+          good: "一趟下来结束刚好出S",
+          bad: "路上错过三只大S",
+          weekend: true,
+        },
+        {
+          name: "巡全服",
+          good: "你的英名远播八服",
+          bad: "前脚刚走，后脚别人就出了",
+          weekend: true,
+        },
+        {
+          name: "守本服",
+          good: "你就是今天的老家守护神",
+          bad: "今天老家的S都是栽种",
+          weekend: true,
+        },
+        {
+          name: "死磕单个S",
+          good: "坚持到底终将胜利！",
+          bad: "头铁是没有好结果的",
+          weekend: true,
+        },
+        {
+          name: "冒领ET",
+          good: "路人纷纷称赞你高超的数学水平",
+          bad: "因为算错时间被路人出警了",
+          weekend: true,
+        },
+        {
+          name: "刷小巨魔",
+          good: "一发入魂！",
+          bad: "刷了二十次也没见到宠物",
+          weekend: true,
+        },
+        {
+          name: "和畜畜对线",
+          good: "路人们纷纷对你表示支持",
+          bad: "路人把你挂上了贴吧",
+          weekend: true,
+        },
+        {
+          name: "早起",
+          good: "一早起来就是S车",
+          bad: "特殊恶名精英的手下结束了侦察回去了……",
+          weekend: true,
+        },
+        {
+          name: "午睡",
+          good: "一觉醒来，无事发生",
+          bad: "一觉醒来，错过十几个S……",
+          weekend: true,
+        },
+        {
+          name: "晚睡",
+          good: "睡前连车！",
+          bad: "再触一个就睡……然后到了半夜三点",
+          weekend: true,
+        },
+        {
+          name: "午睡",
+          good: "一觉醒来，无事发生",
+          bad: "一觉醒来，错过十几个S……",
+          weekend: true,
+        },
+        {
+          name: "等开怪时贪双色",
+          good: "血赚72",
+          bad: "贪着贪着错过了开怪……",
+          weekend: true,
+        },
+        {
+          name: "等开怪时搓生产",
+          good: "时间管理大师",
+          bad: "路人玩怪把你雾绢炸了",
+          weekend: true,
+        },
+        {
+          name: "触中萨",
+          good: "随便找了个点一试就是大眼",
+          bad: "水煮蛋吃噎了也不见大眼",
+          weekend: true,
+        },
+        {
+          name: "触完就跑",
+          good: "事了拂衣去，深藏功与名",
+          bad: "你的S被路人私闷了",
+          weekend: true,
+        },
+        {
+          name: "晨练",
+          good: "一大早哐哐农出S车",
+          bad: "大清早一个农S都不在家",
+          weekend: true,
+        },
+        {
+          name: "开鱼眼钓审判鳐",
+          good: "鱼眼战神就是你！",
+          bad: "好不容易起了也还是没气",
+          weekend: true,
+        },
+        {
+          name: "边刷剧边农怪",
+          good: "充分利用时间，农怪不无聊",
+          bad: " 一不留神农错线了",
+          weekend: true,
+        },
+        {
+          name: "边听歌边农怪",
+          good: "专属BGM大幅提升效率",
+          bad: "一个分心农错线了",
+          weekend: true,
+        },
+        {
+          name: "触特殊FATE",
+          good: "触FATE也是触！",
+          bad: "打半天前置没动静，怎么看都是丢了吧！",
+          weekend: true,
+        },
+        {
+          name: "触幻海流",
+          good: "触幻海流也是触！",
+          bad: "半天不起幻鱼，一看手里两千分",
+          weekend: true,
+        },
+      ];
+
+      var specials = [
+        {
+          date: 20140214,
+          type: "bad",
+          name: "待在男（女）友身边",
+          description: "脱团火葬场，入团保平安。",
+        },
+      ];
+
+      var tools = ["萨岛", "月球", "大森", "鳐子", "边区", "魔大陆", "北萨"];
+
+      var varNames = ["鸡胸肉", "鱼粉", "鸟蛋", "垃圾"];
+
+      var fish = ["铜镜", "审判鳐"];
+
+      var drinks = [
+        "机工士",
+        "机工士",
+        "机工士",
+        "机工士",
+        "机工士",
+        "机工士",
+        "机工士",
+        "机工士",
+        "机工士",
+        "机工士",
+        "机工士",
+        "机工士",
+        "召唤师",
+        "召唤师",
+        "召唤师",
+        "召唤师",
+        "召唤师",
+        "召唤师",
+        "召唤师",
+        "召唤师",
+        "召唤师",
+        "召唤师",
+        "召唤师",
+        "召唤师",
+        "召唤师",
+        "绘灵法师",
+        "绘灵法师",
+        "绘灵法师",
+        "绘灵法师",
+        "绘灵法师",
+        "绘灵法师",
+        "绘灵法师",
+        "绘灵法师",
+        "绘灵法师",
+        "绘灵法师",
+        "绘灵法师",
+        "绘灵法师",
+        "绘灵法师",
+        "战士",
+        "暗黑骑士",
+        "骑士",
+        "绝枪战士",
+        "白魔法师",
+        "占星术士",
+        "学者",
+        "贤者",
+        "武僧",
+        "武士",
+        "龙骑士",
+        "钐镰客",
+        "忍者",
+        "蝰蛇剑士",
+        "吟游诗人",
+        "舞者",
+        "青魔法师",
+        "赤魔法师",
+        "黑魔法师",
+      ];
+
+      function is_someday() {
+        return today.getMonth() == 5 && today.getDate() == 4;
+      }
+
+      function getTodayString() {
+        return (
+          "今天是" +
+          today.getFullYear() +
+          "年" +
+          (today.getMonth() + 1) +
+          "月" +
+          today.getDate() +
+          "日 星期" +
+          weeks[today.getDay()]
+        );
+      }
+
+      function star(num) {
+        var luck = [
+          " 别触了，安心等吃吧",
+          " 浅触辄止，多触伤身",
+          " 只要多触，总会有的",
+          " 触S如家常便饭",
+          " 高触就是你？",
+          " 群友都问你触发挂哪来的",
+        ];
+        var result = "";
+        var i = 0;
+        while (i < num) {
+          result += "★";
+          i++;
+        }
+        while (i < 5) {
+          result += "☆";
+          i++;
+        }
+        result += luck[num - 1];
+        return result;
+      }
+
+      // 生成今日运势
+      function pickTodaysLuck() {
+        var _activities = filter(activities);
+
+        var numGood = (random(iday, 98) % 3) + 2;
+        var numBad = (random(iday, 87) % 3) + 2;
+        var eventArr = pickRandomActivity(_activities, numGood + numBad, 0);
+
+        //var specialSize = pickSpecials();
+
+        for (var i = 0; i < numGood; i++) {
+          addToGood(eventArr[i]);
+        }
+
+        for (var i = 0; i < numBad; i++) {
+          addToBad(eventArr[numGood + i]);
+        }
+      }
+
+      function rePick(num) {
+        var _activities = filter(activities);
+
+        var numGood = (random(iday + num, 98) % 3) + 2;
+        var numBad = (random(iday + num, 87) % 3) + 2;
+        var eventArr = pickRandomActivity(_activities, numGood + numBad, num);
+
+        //var specialSize = pickSpecials();
+
+        //初始化
+        $(".good .content ul").html("");
+        $(".bad .content ul").html("");
+
+        for (var i = 0; i < numGood; i++) {
+          addToGood(eventArr[i]);
+        }
+
+        for (var i = 0; i < numBad; i++) {
+          addToBad(eventArr[numGood + i]);
+        }
+      }
+
+      // 去掉一些不合今日的事件
+
+      function filter(activities) {
+        var result = [];
+
+        // 周末的话，只留下 weekend = true 的事件
+
+        if (isWeekend()) {
+          for (var i = 0; i < activities.length; i++) {
+            if (activities[i].weekend) {
+              result.push(activities[i]);
+            }
+          }
+          return result;
+        }
+
+        return activities;
+      }
+
+      function isWeekend() {
+        return today.getDay() == 0 || today.getDay() == 6;
+      }
+
+      // 添加预定义事件
+
+      function pickSpecials() {
+        var specialSize = [0, 0];
+
+        for (var i = 0; i < specials.length; i++) {
+          var special = specials[i];
+
+          if (iday == special.date) {
+            if (special.type == "good") {
+              specialSize[0]++;
+              addToGood({ name: special.name, good: special.description });
+            } else {
+              specialSize[1]++;
+              addToBad({ name: special.name, bad: special.description });
+            }
+          }
+        }
+
+        return specialSize;
+      }
+
+      // 从 activities 中随机挑选 size 个
+      function pickRandomActivity(activities, size, num) {
+        var picked_events = pickRandom(activities, size, num);
+
+        for (var i = 0; i < picked_events.length; i++) {
+          picked_events[i] = parse(picked_events[i], num);
+        }
+
+        return picked_events;
+      }
+
+      // 从数组中随机挑选 size 个
+      function pickRandom(array, size, num) {
+        var result = [];
+
+        for (var i = 0; i < array.length; i++) {
+          result.push(array[i]);
+        }
+
+        for (var j = 0; j < array.length - size; j++) {
+          var index = random(iday + num, j) % result.length;
+          result.splice(index, 1);
+        }
+
+        return result;
+      }
+
+      // 解析占位符并替换成随机内容
+      function parse(event, num) {
+        var result = { name: event.name, good: event.good, bad: event.bad }; // clone
+
+        if (result.name.indexOf("%v") != -1) {
+          result.name = result.name.replace(
+            "%v",
+            varNames[random(iday + num, 12) % varNames.length]
+          );
+        }
+
+        if (result.name.indexOf("%t") != -1) {
+          result.name = result.name.replace(
+            "%t",
+            tools[random(iday + num, 11) % tools.length]
+          );
+        }
+
+        if (result.name.indexOf("%l") != -1) {
+          result.name = result.name.replace(
+            "%l",
+            fish[random(iday + num, 7) % fish.length]
+          );
+        }
+
+        return result;
+      }
+
+      // 添加到“宜”
+      function addToGood(event) {
+        $(".good .content ul").append(
+          '<li><div class="name">' +
+            event.name +
+            '</div><div class="description">' +
+            event.good +
+            "</div></li>"
+        );
+      }
+
+      // 添加到“不宜”
+      function addToBad(event) {
+        $(".bad .content ul").append(
+          '<li><div class="name">' +
+            event.name +
+            '</div><div class="description">' +
+            event.bad +
+            "</div></li>"
+        );
+      }
+
+      $(function () {
+        $(".date").html(getTodayString());
+        $(".direction_value").html(
+          directions[random(iday, 7) % directions.length]
+        );
+        $(".bbq_value").html(bbq[random(iday, 11) % bbq.length]);
+        $(".drink_value").html(drinks[random(iday, 31) % drinks.length]);
+        $(".goddes_value").html(star((random(iday, 6) % 6) + 1));
+        pickTodaysLuck();
+      });
+
+      function generateNew() {
+        var inputValue = document.getElementById("yourname").value;
+        var number = 0;
+        for (var i = 0; i < inputValue.length; i++) {
+          number += inputValue.charCodeAt(i);
+        }
+        $(".direction_value").html(
+          directions[random(iday + number, 7) % directions.length]
+        );
+        $(".bbq_value").html(bbq[random(iday + number, 11) % bbq.length]);
+        $(".drink_value").html(
+          drinks[random(iday + number, 31) % drinks.length]
+        );
+        $(".goddes_value").html(star((random(iday + number, 6) % 6) + 1));
+        rePick(number);
+      }
+    </script>
+
+    <style type="text/css">
+      body * {
+        font-family: "Consolas", "Microsoft Yahei", Arial, sans-serif;
+      }
+
+      body {
+        background: white;
+        margin: 0;
+        padding: 0;
+      }
+
+      .container {
+        width: 500px;
+        margin: 0 auto 50px;
+      }
+
+      .container > .title {
+        color: #bbb;
+        font-weight: bold;
+        margin-bottom: 10px;
+        background: #555;
+        padding: 5px 15px;
+      }
+
+      .adlink {
+        text-align: center;
+        font-size: 11pt;
+      }
+
+      .adlink a {
+        text-decoration: none;
+        display: block;
+        color: #666;
+        font-weight: bold;
+        margin-bottom: 10px;
+        background: #eee;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 10pt;
+        margin-top: 10pt;
+      }
+
+      .date {
+        font-size: 15pt;
+        font-weight: bold;
+        line-height: 30pt;
+        text-align: center;
+      }
+
+      .split,
+      .clear {
+        clear: both;
+        height: 5px;
+        overflow-y: hidden;
+      }
+
+      .blank {
+        clear: both;
+        height: 30px;
+        overflow-y: hidden;
+      }
+
+      .good,
+      .bad {
+        clear: both;
+        position: relative;
+      }
+
+      .bad {
+        /*top: -1px;*/
+      }
+
+      .good .title,
+      .bad .title {
+        float: left;
+        width: 100px;
+        font-weight: bold;
+        text-align: center;
+        font-size: 30pt;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+      }
+
+      .good .title > table,
+      .bad .title > table {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: none;
+      }
+
+      .good .title {
+        background: #ffee44;
+      }
+
+      .someday .good .title {
+        background: #aaaaaa;
+      }
+
+      .bad .title {
+        background: #ff4444;
+        color: #fff;
+      }
+
+      .someday .bad .title {
+        background: #666666;
+        color: #fff;
+      }
+
+      .good .content,
+      .bad .content {
+        margin-left: 115px;
+        padding-right: 10px;
+        padding-top: 1px;
+        font-size: 15pt;
+      }
+
+      .someday .good {
+        background: #dddddd;
+      }
+
+      .someday .bad {
+        background: #aaaaaa;
+      }
+
+      .good {
+        background: #ffffaa;
+      }
+
+      .bad {
+        background: #ffddd3;
+      }
+
+      .content ul {
+        list-style: none;
+        margin: 10px 0 0;
+        padding: 0;
+      }
+
+      .content ul li {
+        line-height: 150%;
+        font-size: 15pt;
+        font-weight: bold;
+        color: #444;
+      }
+
+      .content ul li div.description {
+        font-size: 11pt;
+        font-weight: normal;
+        color: #777;
+        line-height: 110%;
+        margin-bottom: 10px;
+      }
+
+      .line-tip {
+        font-size: 11pt;
+        margin-top: 10px;
+        margin-left: 10px;
+      }
+
+      .line-description {
+        font-size: 9pt;
+        margin-top: 7px;
+        margin-left: 10px;
+      }
+
+      .direction_value {
+        color: #4a4;
+        font-weight: bold;
+      }
+
+      .bbq_value {
+        font-weight: bold;
+      }
+
+      .drink_value {
+        font-weight: bold;
+      }
+
+      .someday .direction_value {
+        color: #888;
+      }
+
+      .goddes_value {
+        color: #f87;
+      }
+
+      .someday .goddes_value {
+        color: #777;
+      }
+
+      .comment {
+        margin-top: 50px;
+        font-size: 11pt;
+        margin-left: 10px;
+      }
+
+      .comment ul {
+        margin-left: 0;
+        padding-left: 20px;
+        color: #999;
+      }
+
+      .usernamebox {
+        font-size: 10pt;
+        font-weight: bold;
+        line-height: 5pt;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="blank"></div>
+      <div class="title">散触老黄历<sup>Ver1.4</sup></div>
+      <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
+      <div class="line-description">出发触S之前确定不看看么？</div>
+      <div class="blank"></div>
+      <div class="date"></div>
+      <div class="usernamebox">
+        老黄历给<input
+          type="text"
+          name="username"
+          id="yourname"
+          placeholder="你的名字"
+          size="8"
+          maxlength="24"
+          oninput="generateNew()"
+        />的建议：
+      </div>
+      <div class="blank"></div>
+      <div class="good">
+        <div class="title">
+          <table>
+            <tr>
+              <td>宜</td>
+            </tr>
+          </table>
+        </div>
+        <div class="content">
+          <ul></ul>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="split"></div>
+      <div class="bad">
+        <div class="title">
+          <table>
+            <tr>
+              <td>忌</td>
+            </tr>
+          </table>
+        </div>
+        <div class="content">
+          <ul></ul>
+        </div>
+        <div class="clear"></div>
+      </div>
+      <div class="split"></div>
+      <div class="line-tip">
+        <strong>今日运势：</strong><span class="goddes_value"></span>
+      </div>
+      <div class="line-tip">
+        <strong>座位朝向：</strong>面向<span class="direction_value"></span
+        >触S，最容易出货。
+      </div>
+      <div class="line-tip">
+        <strong>烤肉摊位：</strong>在<span class="bbq_value"></span
+        >搓犎牛牛排HQ，阿提卡斯最爱吃。
+      </div>
+      <div class="line-tip">
+        <strong>推荐职业：</strong>使用<span class="drink_value"></span
+        >农怪，效率最高。
+      </div>
+
+      <div class="comment">
+        <ul>
+          <li>此页面魔改自程序员老黄历，非100%原创</li>
+          <li>老黄历为玄学产物，仅供参考，切勿过度迷信</li>
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>
