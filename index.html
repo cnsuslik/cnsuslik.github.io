@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>散触老黄历Ver1.4</title>
+    <title>散触老黄历Ver1.41</title>
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
       //
@@ -17,11 +17,6 @@
           n = n % 11117; // 11117 是个质数
         }
         return n;
-      }
-
-      function namehash(text) {
-        var ex = 0;
-        return ex;
       }
 
       var today = new Date();
@@ -62,6 +57,23 @@
         "台夏帕尼废村",
         "落雷场",
         "尤派光晕农地",
+      ];
+      var vme50 = [
+        {
+          name: "吃KFC",
+          good: "疯狂星期四V我50！",
+          bad: "点个KFC的工夫错过两只大S",
+        },
+        {
+          name: "请群友吃疯狂星期四",
+          good: "积攒人品有利于触发",
+          bad: "群友卷走你的钱跑了",
+        },
+        {
+          name: "吃麦当劳",
+          good: "用叛逆的方式度过疯四",
+          bad: "谁叫你叛变疯四的！",
+        },
       ];
       var activities = [
         {
@@ -239,12 +251,6 @@
           weekend: true,
         },
         {
-          name: "触小S",
-          good: "你就是今天的小S守护神！",
-          bad: "怎么小S都不出货？",
-          weekend: true,
-        },
-        {
           name: "触5S",
           good: "你就是今天的诺弗兰特守护神",
           bad: "笑死，根本不出货",
@@ -353,12 +359,6 @@
           weekend: true,
         },
         {
-          name: "午睡",
-          good: "一觉醒来，无事发生",
-          bad: "一觉醒来，错过十几个S……",
-          weekend: true,
-        },
-        {
           name: "等开怪时贪双色",
           good: "血赚72",
           bad: "贪着贪着错过了开怪……",
@@ -418,14 +418,86 @@
           bad: "半天不起幻鱼，一看手里两千分",
           weekend: true,
         },
+        {
+          name: "挖G17",
+          good: "一个S都没错过，还出了武器箱",
+          bad: "错过一堆S，武器箱也不出，这辈子就毁在的狞上了",
+          weekend: true,
+        },
+        {
+          name: "翘班吃S",
+          good: "你的领导今天也翘班打游戏",
+          bad: "HR：明天去财务那结下工资",
+          weekend: false,
+        },
+        {
+          name: "请假吃S",
+          good: "一天下来吃了不少，这假请得真值",
+          bad: "你装病请假被领导发现了",
+          weekend: false,
+        },
+        {
+          name: "边上班边吃S",
+          good: "上班就是为了摸鱼！",
+          bad: "摸鱼被领导发现了",
+          weekend: false,
+        },
+        {
+          name: "边上班边农怪",
+          good: "农批永远不受时间地点限制！",
+          bad: "农怪导致你的工作出现重大纰漏",
+          weekend: false,
+        },
+        {
+          name: "翘专业课吃S",
+          good: "今天的专业课比狩猎还水",
+          bad: "室友回来告诉你今天有点名",
+          weekend: false,
+        },
+        {
+          name: "通勤时手机远程吃S",
+          good: "没有人能阻止猎批！",
+          bad: "因为信号太差，你脸开了",
+          weekend: false,
+        },
+        {
+          name: "边写论文边狩猎",
+          good: "狩猎给你的论文带来了不少灵感",
+          bad: "导师：你怎么废话连篇还一堆错别字！",
+          weekend: false,
+        },
+        {
+          name: "边复习边狩猎",
+          good: "据说狩猎有助于大脑开发提高学习效率",
+          bad: "笔记一条都没记住，这辈子毁在狩猎上了",
+          weekend: false,
+        },
+        {
+          name: "专心赶DDL",
+          good: "一天下来竟没错过一个大S",
+          bad: "交完稿发现今天错过一堆S车",
+          weekend: false,
+        },
       ];
 
       var specials = [
         {
-          date: 20140214,
-          type: "bad",
-          name: "待在男（女）友身边",
-          description: "脱团火葬场，入团保平安。",
+          date: 20250330,
+          type: "good",
+          name: "跟车羊驼山",
+          description: "嘟嘟嘟，羊驼山观光车！",
+        },
+        {
+          date: 20250411,
+          type: "good",
+          name: "熬夜跟车羊驼山",
+          description: "周末晚上就是用来吃S车的",
+        },
+        {
+          date: 20250501,
+          type: "good",
+          name: "农怪",
+          description: "劳动最光荣！",
         },
       ];
 
@@ -513,6 +585,10 @@
       }
 
       function star(num) {
+        // 手动调整低星和高星概率，实际星数为n
+        var p = [1, 1, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, 5, 5, 6];
+        var n = p[num - 1];
+
         var luck = [
           " 别触了，安心等吃吧",
           " 浅触辄止，多触伤身",
@@ -523,7 +599,7 @@
         ];
         var result = "";
         var i = 0;
-        while (i < num) {
+        while (i < n) {
           result += "★";
           i++;
         }
@@ -531,7 +607,7 @@
           result += "☆";
           i++;
         }
-        result += luck[num - 1];
+        result += luck[n - 1];
         return result;
       }
 
@@ -543,7 +619,7 @@
         var numBad = (random(iday, 87) % 3) + 2;
         var eventArr = pickRandomActivity(_activities, numGood + numBad, 0);
 
-        //var specialSize = pickSpecials();
+        var specialSize = pickSpecials();
 
         for (var i = 0; i < numGood; i++) {
           addToGood(eventArr[i]);
@@ -554,6 +630,7 @@
         }
       }
 
+      // 根据输入内容重新生成
       function rePick(num) {
         var _activities = filter(activities);
 
@@ -561,9 +638,9 @@
         var numBad = (random(iday + num, 87) % 3) + 2;
         var eventArr = pickRandomActivity(_activities, numGood + numBad, num);
 
-        //var specialSize = pickSpecials();
+        var specialSize = pickSpecials();
 
-        //初始化
+        //重置事件
         $(".good .content ul").html("");
         $(".bad .content ul").html("");
 
@@ -582,7 +659,6 @@
         var result = [];
 
         // 周末的话，只留下 weekend = true 的事件
-
         if (isWeekend()) {
           for (var i = 0; i < activities.length; i++) {
             if (activities[i].weekend) {
@@ -590,6 +666,13 @@
             }
           }
           return result;
+        }
+
+        // 添加疯狂星期四限定事件
+        if (today.getDay() == 4) {
+          for (var i = 0; i < vme50.length; i++) {
+            activities.push(vme50[i]);
+          }
         }
 
         return activities;
@@ -622,8 +705,8 @@
       }
 
       // 从 activities 中随机挑选 size 个
-      function pickRandomActivity(activities, size, num) {
-        var picked_events = pickRandom(activities, size, num);
+      function pickRandomActivity(acts, size, num) {
+        var picked_events = pickRandom(acts, size, num);
 
         for (var i = 0; i < picked_events.length; i++) {
           picked_events[i] = parse(picked_events[i], num);
@@ -705,10 +788,11 @@
         );
         $(".bbq_value").html(bbq[random(iday, 11) % bbq.length]);
         $(".drink_value").html(drinks[random(iday, 31) % drinks.length]);
-        $(".goddes_value").html(star((random(iday, 6) % 6) + 1));
+        $(".goddes_value").html(star((random(iday, 6) % 17) + 1));
         pickTodaysLuck();
       });
 
+      //每次输入名字都以日期种子+名字种子重新生成一次数据
       function generateNew() {
         var inputValue = document.getElementById("yourname").value;
         var number = 0;
@@ -722,7 +806,7 @@
         $(".drink_value").html(
           drinks[random(iday + number, 31) % drinks.length]
         );
-        $(".goddes_value").html(star((random(iday + number, 6) % 6) + 1));
+        $(".goddes_value").html(star((random(iday + number, 6) % 17) + 1));
         rePick(number);
       }
     </script>
@@ -942,7 +1026,7 @@
   <body>
     <div class="container">
       <div class="blank"></div>
-      <div class="title">散触老黄历<sup>Ver1.4</sup></div>
+      <div class="title">散触老黄历<sup>Ver1.41</sup></div>
       <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
       <div class="line-description">出发触S之前确定不看看么？</div>
       <div class="blank"></div>
@@ -1007,6 +1091,7 @@
         <ul>
           <li>此页面魔改自程序员老黄历，非100%原创</li>
           <li>老黄历为玄学产物，仅供参考，切勿过度迷信</li>
+          <li>请理性游戏，不要让狩猎毁了你的工作/学业</li>
         </ul>
       </div>
     </div>
