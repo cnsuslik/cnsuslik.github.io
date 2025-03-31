@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>散触老黄历Ver1.41</title>
+    <title>散触老黄历Ver1.42</title>
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
       //
@@ -494,10 +494,166 @@
           description: "周末晚上就是用来吃S车的",
         },
         {
-          date: 20250501,
+          date: 20250531,
+          type: "good",
+          name: "吃粽子",
+          description: "你们端午都有什么习俗？不会还是吃饺子吧！",
+        },
+        {
+          date: 20250621,
+          type: "good",
+          name: "做绿豆汤",
+          description: "你们夏至都有什么习俗？不会还是吃饺子吧！",
+        },
+        {
+          date: 20250829,
+          type: "good",
+          name: "和CP出门约会",
+          description: "你们七夕都有什么习俗？不会还是吃饺子吧！",
+        },
+        {
+          date: 20250906,
+          type: "good",
+          name: "放河灯",
+          description: "你们中元节都有什么习俗？不会还是吃饺子吧！",
+        },
+        {
+          date: 20251006,
+          type: "good",
+          name: "吃月饼",
+          description: "你们中秋节都有什么习俗？不会还是吃饺子吧！",
+        },
+        {
+          date: 20251006,
+          type: "good",
+          name: "农月球",
+          description: "别人赏月，你登月",
+        },
+        {
+          date: 20251127,
+          type: "good",
+          name: "烤火鸡",
+          description: "不会感恩节也还是吃饺子吧！",
+        },
+        {
+          date: 20251221,
+          type: "good",
+          name: "吃饺子",
+          description: "你们冬至都有什么习俗？喝羊肉汤也不错！",
+        },
+        {
+          date: 101,
+          type: "good",
+          name: "抢红包",
+          description: "新年新气象！",
+        },
+        {
+          date: 107,
+          type: "good",
+          name: "做算术题",
+          description: "谁说散触数学不好！一七得七二七四十八……",
+        },
+        {
+          date: 202,
+          type: "good",
+          name: "扎双马尾",
+          description: "今天是双马尾日！",
+        },
+        {
+          date: 214,
+          type: "good",
+          name: "和CP出门约会",
+          description: "狩猎哪有对象重要",
+        },
+        {
+          date: 312,
+          type: "bad",
+          name: "农边区",
+          description: "植树节禁止乱砍滥伐！",
+        },
+        {
+          date: 501,
           type: "good",
           name: "农怪",
           description: "劳动最光荣！",
+        },
+        {
+          date: 520,
+          type: "good",
+          name: "表白",
+          description: "真的吗？",
+        },
+        {
+          date: 601,
+          type: "bad",
+          name: "装嫩",
+          description: "儿童节不是给你过的啊喂！",
+        },
+        {
+          date: 618,
+          type: "good",
+          name: "逛商城",
+          description: "趁着折扣多买点时装",
+        },
+        {
+          date: 714,
+          type: "good",
+          name: "红色电音极地大冲击",
+          description: "来势汹汹的传思电音，天地人间完全放电！",
+        },
+        {
+          date: 715,
+          type: "good",
+          name: "红色电音极地大冲击",
+          description: "来势汹汹的传思电音，天地人间完全放电！",
+        },
+        {
+          date: 910,
+          type: "good",
+          name: "收豆芽",
+          description: "教师节快乐！",
+        },
+        {
+          date: 1001,
+          type: "good",
+          name: "出门度假",
+          description: "国庆快乐！",
+        },
+        {
+          date: 1031,
+          type: "good",
+          name: "吃南瓜",
+          description: "守护天节快乐！别忘了做季节活动！",
+        },
+        {
+          date: 1111,
+          type: "good",
+          name: "逛商城",
+          description: "趁着折扣多买点时装",
+        },
+        {
+          date: 1212,
+          type: "good",
+          name: "逛商城",
+          description: "趁着折扣多买点时装",
+        },
+        {
+          date: 1224,
+          type: "good",
+          name: "给好友送礼物",
+          description: "星芒节快乐！别忘了做季节活动！",
+        },
+        {
+          date: 1225,
+          type: "good",
+          name: "给好友送礼物",
+          description: "星芒节快乐！别忘了做季节活动！",
+        },
+        {
+          date: 1231,
+          type: "good",
+          name: "参加跨年派对",
+          description: "不要学隔壁大哥哥，跨年夜还在触S",
         },
       ];
 
@@ -506,6 +662,29 @@
       var varNames = ["鸡胸肉", "鱼粉", "鸟蛋", "垃圾"];
 
       var fish = ["铜镜", "审判鳐"];
+
+      var aprilfool = [
+        {
+          name: "诸事",
+          good: "诸事不寄，放手去干！",
+          bad: "诸事不宜，小心翻车！",
+        },
+        {
+          name: "向群友表白",
+          good: "我……我也喜欢你！",
+          bad: "你被移出了群聊",
+        },
+        {
+          name: "开愚人节玩笑",
+          good: "节日就该做该在节日做的事！",
+          bad: "就算是开玩笑也不要开太过分啊喂！",
+        },
+        {
+          name: "使用老黄历",
+          good: "你被骗了，快输入名字获取真实结果吧！",
+          bad: "你被骗了，快输入名字获取真实结果吧！",
+        },
+      ];
 
       var drinks = [
         "机工士",
@@ -568,11 +747,13 @@
       ];
 
       function is_someday() {
-        return today.getMonth() == 5 && today.getDate() == 4;
+        return (
+          iday % 10000 == 512 || iday % 10000 == 1213 || iday % 10000 == 918
+        );
       }
 
       function getTodayString() {
-        return (
+        var datetext =
           "今天是" +
           today.getFullYear() +
           "年" +
@@ -580,8 +761,15 @@
           "月" +
           today.getDate() +
           "日 星期" +
-          weeks[today.getDay()]
-        );
+          weeks[today.getDay()];
+        // 特殊纪念日期添加文本
+        if (iday % 10000 == 512) {
+          datetext = datetext + "<br>一方有难，八方支援<br>—";
+        }
+        if (iday % 10000 == 918 || iday % 10000 == 1213) {
+          datetext = datetext + "<br>铭记历史，勿忘国耻<br>—";
+        }
+        return datetext;
       }
 
       function star(num) {
@@ -613,6 +801,21 @@
 
       // 生成今日运势
       function pickTodaysLuck() {
+        //愚人节限定首页
+        if (iday % 10000 == 401) {
+          for (var i = 0; i < aprilfool.length; i++) {
+            addToGood(aprilfool[i]);
+          }
+          for (var i = 0; i < aprilfool.length; i++) {
+            addToBad(aprilfool[i]);
+          }
+          $(".goddes_value").html("☆☆☆☆☆ 哪来的究极倒霉蛋！");
+          $(".direction_value").html("散触老黄历");
+          $(".bbq_value").html("利姆萨·罗敏萨下层甲板");
+          $(".drink_value").html("烹调师");
+          return;
+        }
+
         var _activities = filter(activities);
 
         var numGood = (random(iday, 98) % 3) + 2;
@@ -690,6 +893,18 @@
         for (var i = 0; i < specials.length; i++) {
           var special = specials[i];
 
+          //节日判定
+          if (iday % 10000 == special.date) {
+            if (special.type == "good") {
+              specialSize[0]++;
+              addToGood({ name: special.name, good: special.description });
+            } else {
+              specialSize[1]++;
+              addToBad({ name: special.name, bad: special.description });
+            }
+            continue;
+          }
+
           if (iday == special.date) {
             if (special.type == "good") {
               specialSize[0]++;
@@ -743,10 +958,10 @@
         }
 
         if (result.name.indexOf("%t") != -1) {
-          result.name = result.name.replace(
-            "%t",
-            tools[random(iday + num, 11) % tools.length]
-          );
+          var t = random(iday + num, 11) % tools.length;
+          if (iday % 10000 == 312 && t == 4) t = 0; // 植树节的边区强制改为萨岛
+          if (iday == 20251006 && t == 1) t = 2; // 中秋节的月球强制改为大森
+          result.name = result.name.replace("%t", tools[t]);
         }
 
         if (result.name.indexOf("%l") != -1) {
@@ -782,6 +997,10 @@
       }
 
       $(function () {
+        // 特殊日期处理
+        if (is_someday()) {
+          document.body.className = "someday";
+        }
         $(".date").html(getTodayString());
         $(".direction_value").html(
           directions[random(iday, 7) % directions.length]
@@ -857,6 +1076,13 @@
         font-size: 15pt;
         font-weight: bold;
         line-height: 30pt;
+        text-align: center;
+      }
+
+      .someday .date {
+        font-size: 15pt;
+        font-weight: bold;
+        line-height: 22pt;
         text-align: center;
       }
 
@@ -1026,7 +1252,7 @@
   <body>
     <div class="container">
       <div class="blank"></div>
-      <div class="title">散触老黄历<sup>Ver1.41</sup></div>
+      <div class="title">散触老黄历<sup>Ver1.42</sup></div>
       <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
       <div class="line-description">出发触S之前确定不看看么？</div>
       <div class="blank"></div>
