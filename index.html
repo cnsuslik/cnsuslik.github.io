@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>散触老黄历Ver1.42</title>
+    <title>散触老黄历Ver1.43</title>
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
       //
@@ -1041,6 +1041,36 @@
         padding: 0;
       }
 
+      input {
+        outline-style: none;
+        border: 1px solid #555;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+        padding: 1px;
+        width: 110px;
+        font-size: 13px;
+        color: #555;
+        font-family: "Consolas", "Microsoft Yahei", Arial, sans-serif;
+        text-align: center;
+        font-weight: bold;
+        background: #f3f3f3;
+      }
+
+      input::placeholder {
+        color: #969696;
+        font-size: 13px;
+        font-family: "Consolas", "Microsoft Yahei", Arial, sans-serif;
+        font-weight: bold;
+      }
+
+      input:focus {
+        border: 2px solid #555;
+        border-top: 0px;
+        border-left: 0px;
+        border-right: 0px;
+      }
+
       .container {
         width: 500px;
         margin: 0 auto 50px;
@@ -1073,9 +1103,9 @@
       }
 
       .date {
-        font-size: 15pt;
+        font-size: 16pt;
         font-weight: bold;
-        line-height: 30pt;
+        line-height: 32pt;
         text-align: center;
       }
 
@@ -1131,27 +1161,39 @@
 
       .good .title {
         background: #ffee44;
+        border-radius: 10px 0px 0px 0px;
       }
 
       .someday .good .title {
         background: #aaaaaa;
+        border-radius: 10px 0px 0px 0px;
       }
 
       .bad .title {
         background: #ff4444;
         color: #fff;
+        border-radius: 0px 0px 0px 10px;
       }
 
       .someday .bad .title {
         background: #666666;
         color: #fff;
+        border-radius: 0px 0px 0px 10px;
       }
 
-      .good .content,
+      .good .content {
+        margin-left: 115px;
+        padding-right: 10px;
+        padding-top: 8px;
+        padding-bottom: 5px;
+        font-size: 15pt;
+      }
+
       .bad .content {
         margin-left: 115px;
         padding-right: 10px;
-        padding-top: 1px;
+        padding-top: 8px;
+        padding-bottom: 5px;
         font-size: 15pt;
       }
 
@@ -1165,10 +1207,12 @@
 
       .good {
         background: #ffffaa;
+        border-radius: 10px 10px 0px 0px;
       }
 
       .bad {
         background: #ffddd3;
+        border-radius: 0px 0px 10px 10px;
       }
 
       .content ul {
@@ -1242,33 +1286,52 @@
       }
 
       .usernamebox {
-        font-size: 10pt;
-        font-weight: bold;
-        line-height: 5pt;
+        font-size: 11pt;
         text-align: center;
+        line-height: 20px;
+        font-weight: Bold;
+        color: #555;
+        font-family: "Consolas", "Microsoft Yahei", Arial, sans-serif;
+      }
+
+      .titlebox {
+        border: 3px solid #353535;
+        background: #f3f3f3;
+        /*box-shadow: 0px 0px 15px 0px rgba(128, 128, 128, 0.1);*/
+        border-radius: 0px 10px 10px 0px;
+        border-bottom: 0px;
+        border-right: 0px;
+        border-top: 0px;
+        padding-top: 15px;
+        padding-bottom: 20px;
+        margin-bottom: 5px;
       }
     </style>
   </head>
   <body>
     <div class="container">
       <div class="blank"></div>
-      <div class="title">散触老黄历<sup>Ver1.42</sup></div>
+      <div class="title">散触老黄历<sup>Ver1.43</sup></div>
       <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
       <div class="line-description">出发触S之前确定不看看么？</div>
       <div class="blank"></div>
-      <div class="date"></div>
-      <div class="usernamebox">
-        老黄历给<input
-          type="text"
-          name="username"
-          id="yourname"
-          placeholder="你的名字"
-          size="8"
-          maxlength="24"
-          oninput="generateNew()"
-        />的建议：
+      <div class="titlebox">
+        <div class="date"></div>
+        <div class="usernamebox">
+          老黄历给
+          <input
+            type="text"
+            name="username"
+            id="yourname"
+            placeholder="你的名字"
+            size="8"
+            maxlength="24"
+            oninput="generateNew()"
+          />
+          的建议:
+        </div>
       </div>
-      <div class="blank"></div>
+      <div class="split"></div>
       <div class="good">
         <div class="title">
           <table>
