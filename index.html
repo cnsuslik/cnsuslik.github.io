@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>散触老黄历Ver1.44</title>
+    <title>散触老黄历Ver2.0Beta</title>
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
       //
@@ -1025,6 +1025,284 @@
         $(".goddes_value").html(star((random(iday + number, 6) % 17) + 1));
         rePick(number);
       }
+
+      // 龙蛋计时器相关
+
+      const data = {
+        niaoye: [
+          "宇宙和音",
+          "幻影群岛",
+          "拉诺西亚",
+          "晨曦王座",
+          "沃仙曦染",
+          "神意之地",
+          "红玉海",
+          "萌芽池",
+        ],
+        maoye: [
+          "紫水栈桥",
+          "静语庄园",
+          "海猫茶屋",
+          "柔风海湾",
+          "琥珀原",
+          "摩杜纳",
+          "延夏",
+        ],
+        zhuye: [
+          "白金幻象",
+          "旅人栈桥",
+          "拂晓之间",
+          "龙巢神殿",
+          "梦羽宝境",
+          "潮风亭",
+          "神拳痕",
+          "白银乡",
+        ],
+        gouye: ["水晶塔", "银泪湖", "太阳海岸", "伊修加德", "红茶川"],
+      };
+      const dc = document.getElementById("datacenter");
+      const world = document.getElementById("egglist");
+
+      // 龙蛋计时器核心功能
+      function addRow() {
+        const row = document.createElement("div");
+        row.className = "row";
+
+        // 计数器
+        const counter = createCounter();
+
+        // 服务器下拉列表
+        const subSelect = document.createElement("select");
+        subSelect.className = "worldSel";
+        updateSubSelect(subSelect);
+
+        // 上一个龙蛋的时间
+        const timeDisplay = document.createElement("div");
+        timeDisplay.className = "eggtime";
+
+        // 记录按钮
+        const recordBtn = document.createElement("button");
+        recordBtn.className = "recbtn";
+        recordBtn.textContent = "龙蛋";
+        recordBtn.onclick = () => {
+          const current = parseInt(counter.dataset.count) + 1;
+          counter.dataset.count = current;
+          counter.textContent = current;
+          const now = new Date();
+          timeDisplay.textContent = `上一次龙蛋：${now.getHours()}:${now
+            .getMinutes()
+            .toString()
+            .padStart(2, "0")}`;
+        };
+
+        //删除按钮
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "-";
+        delBtn.className = "delebtn";
+        delBtn.onclick = () => row.remove();
+
+        // 铁王八功能组件
+        const turtleBtn = document.createElement("button");
+        turtleBtn.textContent = "铁王八";
+        turtleBtn.className = "recbtn";
+        const inputGroup = document.createElement("div");
+        inputGroup.className = "hidden";
+        inputGroup.style.gap = "5px";
+
+        // 铁王八剩余时间输入框
+        const timeInputGroup = document.createElement("div");
+        timeInputGroup.className = "time-input-group";
+
+        // 分钟输入框
+        const minuteInput = document.createElement("input");
+        minuteInput.type = "number";
+        minuteInput.min = 0;
+        minuteInput.placeholder = "分";
+        minuteInput.className = "time-input";
+
+        // 秒输入框
+        const secondInput = document.createElement("input");
+        secondInput.type = "number";
+        secondInput.min = 0;
+        secondInput.max = 59;
+        secondInput.placeholder = "秒";
+        secondInput.className = "time-input";
+
+        const confirmBtn = document.createElement("button");
+        confirmBtn.textContent = "确定";
+        confirmBtn.className = "recbtn";
+
+        const cdDisplay = document.createElement("span");
+        cdDisplay.className = "timer";
+        cdDisplay.classList.add("hidden");
+
+        // 铁王八按钮点击事件
+        turtleBtn.onclick = () => {
+          recordBtn.classList.add("hidden");
+          turtleBtn.classList.add("hidden");
+          timeDisplay.classList.add("hidden");
+          inputGroup.classList.remove("hidden");
+          timeInputGroup.append(minuteInput, ":", secondInput, confirmBtn);
+          inputGroup.appendChild(timeInputGroup);
+        };
+
+        // 确定按钮点击事件
+        confirmBtn.onclick = () => {
+          // 获取并验证输入
+          const minutes = parseInt(minuteInput.value) || 0;
+          let seconds = parseInt(secondInput.value) || 0;
+
+          // 处理秒数溢出
+          if (seconds >= 60) {
+            minutes += Math.floor(seconds / 60);
+            seconds = seconds % 60;
+          }
+
+          const totalSeconds = minutes * 60 + seconds;
+          if (totalSeconds <= 0) return;
+
+          // 更新界面状态
+          inputGroup.classList.add("hidden");
+          cdDisplay.classList.remove("hidden");
+          while (inputGroup.firstChild) {
+            inputGroup.removeChild(inputGroup.firstChild);
+          }
+          timeInputGroup.innerHTML = "";
+
+          // 显示倒计时
+          cdDisplay.textContent = `-铁王八剩余${minutes}分${seconds
+            .toString()
+            .padStart(2, "0")}秒-`;
+
+          // 启动倒计时
+          startCountdown(totalSeconds, cdDisplay, () => {
+            timeDisplay.classList.remove("hidden");
+            recordBtn.classList.remove("hidden");
+            turtleBtn.classList.remove("hidden");
+            cdDisplay.classList.add("hidden");
+          });
+        };
+
+        // 控制按钮组
+        const controls = document.createElement("div");
+        controls.className = "controls";
+        controls.append(recordBtn, turtleBtn, delBtn);
+
+        row.append(
+          counter,
+          subSelect,
+          timeDisplay,
+          inputGroup,
+          cdDisplay,
+          controls
+        );
+        egglist.appendChild(row);
+      }
+
+      // 创建计数器
+      function createCounter() {
+        const counter = document.createElement("div");
+        counter.className = "counter";
+        counter.textContent = "0";
+        counter.dataset.count = 0;
+        return counter;
+      }
+
+      function startCountdown(seconds, displayElement, callback) {
+        let remaining = seconds;
+        const timer = setInterval(() => {
+          remaining--;
+          const mins = Math.floor(remaining / 60);
+          const secs = remaining % 60;
+          displayElement.textContent = `-铁王八剩余${mins}分${secs
+            .toString()
+            .padStart(2, "0")}秒-`;
+
+          if (remaining <= 0) {
+            clearInterval(timer);
+            callback();
+          }
+        }, 1000);
+      }
+
+      // 更新所有子下拉选项
+      function updateAllSub() {
+        const allSub = egglist.getElementByTagName("select");
+        Array.from(allSub).forEach(updateSubSelect);
+      }
+
+      // 更新单个子下拉选项
+      function updateSubSelect(SelectWorld) {
+        const category = datacenter.value;
+        SelectWorld.innerHTML = "";
+        if (category) {
+          data[category].forEach((item) => {
+            const option = new Option(item, item);
+            SelectWorld.add(option);
+          });
+        } else {
+          const option = new Option("请先选择所在大区", "");
+          option.disabled = true;
+          SelectWorld.add(option);
+        }
+      }
+
+      datacenter.addEventListener("change", updateAllSub);
+
+      const yards = [
+        {
+          label: "沉思之物",
+          value: 300,
+        },
+        {
+          label: "颇胝迦",
+          value: 300,
+        },
+        {
+          label: "伊休妲",
+          value: 300,
+        },
+        {
+          label: "优昙婆罗花",
+          value: 200,
+        },
+        {
+          label: "巨大鳐",
+          value: 200,
+        },
+        {
+          label: "卢克洛塔",
+          value: 150,
+        },
+        {
+          label: "蚓螈巨虫",
+          value: 100,
+        },
+      ];
+
+      function addFarm() {
+        const farmrow = document.createElement("div");
+        farmrow.className = "row";
+        /*
+        const farmyardSelect = document.createElement("select");
+        for (let i = 0; i < yards.length; i++) {
+          const option = document.createElement("option");
+          option.value = yards[i].value;
+          option.textContent = yards[i].label;
+          farmyardSelect.appendChild(option);
+        }
+*/
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "-";
+        delBtn.className = "delebtn";
+        delBtn.onclick = () => {
+          farmrow.remove();
+          //updateTotal();
+        };
+
+        farmrow.append(delBtn);
+        farmlist.appendChild(farmrow);
+      }
     </script>
 
     <style type="text/css">
@@ -1038,7 +1316,7 @@
         padding: 0;
       }
 
-      input {
+      .nameinput {
         outline-style: none;
         border: 1px solid #555;
         border-top: 0px;
@@ -1054,14 +1332,14 @@
         background: #f3f3f3;
       }
 
-      input::placeholder {
+      .nameinput::placeholder {
         color: #969696;
         font-size: 13px;
         font-family: "Consolas", "Microsoft Yahei", Arial, sans-serif;
         font-weight: bold;
       }
 
-      input:focus {
+      .nameinput:focus {
         border: 2px solid #555;
         border-top: 0px;
         border-left: 0px;
@@ -1070,7 +1348,7 @@
 
       .container {
         width: 500px;
-        margin: 0 auto 50px;
+        float: left;
       }
 
       .container > .title {
@@ -1303,83 +1581,324 @@
         padding-bottom: 20px;
         margin-bottom: 5px;
       }
+
+      .toolcol {
+        width: 420px;
+        float: left;
+        padding-left: 80px;
+      }
+
+      .senmurvTimer {
+        width: 420px;
+      }
+
+      .senmurvTimer > .title {
+        color: #bbb;
+        font-weight: bold;
+        background: #555;
+        padding: 5px 15px;
+      }
+
+      .addbutton {
+        background: #f3f3f3;
+        height: 50px;
+        font-size: 11px;
+        line-height: 50px;
+        color: #555;
+        text-align: center;
+        border-radius: 10px;
+        width: 420px;
+        border: 0px;
+        margin-top: 5px;
+      }
+      .addbutton:hover {
+        background: #555;
+        color: #f3f3f3;
+      }
+
+      .row {
+        width: 420px;
+        height: 60px;
+        background: #ffffff;
+        border: 2px solid #555;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 5px;
+      }
+
+      .controls {
+        margin-left: auto;
+      }
+
+      .timer {
+        color: #353535;
+        font-size: 9pt;
+        margin-left: 35px;
+      }
+
+      .counter {
+        width: 30px;
+        font-weight: bold;
+        font-size: 15pt;
+        border-radius: 10px;
+        height: 30px;
+        border-radius: 4px;
+        text-align: center;
+        line-height: 30px;
+        margin-left: 15px;
+      }
+
+      .counter {
+        background: #353535;
+        color: #fff;
+      }
+
+      .dcSel {
+        width: 420px;
+        height: 35px;
+        border: 1px solid #353535;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        padding-left: 10px;
+      }
+
+      .worldSel {
+        width: 80px;
+        height: 30px;
+        border: 1px solid #353535;
+        border-radius: 4px;
+      }
+
+      .hidden {
+        display: none;
+      }
+
+      .time-input-group {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+      }
+
+      .time-input {
+        width: 40px;
+        height: 23px;
+        text-align: center;
+      }
+
+      .time-label::after {
+        content: "秒";
+        margin-left: -10px;
+        position: relative;
+        z-index: 1;
+      }
+
+      .eggtime {
+        width: 80px;
+        font-size: 9pt;
+        color: #353535;
+        padding-right: -30px;
+      }
+
+      .recbtn {
+        width: 60px;
+        height: 30px;
+        background: #353535;
+        border: 0px;
+        color: #ffffff;
+        border-radius: 4px;
+        font-weight: bold;
+        text-align: center;
+        margin-left: 5px;
+      }
+
+      .recbtn:hover {
+        background: #ffffff;
+        border: 2px solid #353535;
+        color: #353535;
+      }
+
+      .delebtn {
+        background: #ff4444;
+        color: #ffffff;
+      }
+
+      .delebtn {
+        width: 24px;
+        height: 24px;
+        font-weight: bold;
+        font-size: 11pt;
+        border: 0px;
+        border-radius: 24px;
+        line-height: 24px;
+        margin-left: 10px;
+        margin-right: 15px;
+      }
+
+      .delebtn:hover {
+        background: #ffffff;
+        color: #ff4444;
+        border: 2px solid #ff4444;
+      }
+
+      .commenttools {
+        margin-top: 20px;
+        font-size: 9pt;
+        margin-left: 4px;
+      }
+
+      .commenttools ul {
+        margin-left: 0;
+        padding-left: 20px;
+        color: #999;
+      }
+
+      .farmCalc {
+        width: 420px;
+        margin-top: 80px;
+      }
+
+      .farmCalc > .title {
+        color: #bbb;
+        font-weight: bold;
+        background: #555;
+        padding: 5px 15px;
+      }
+
+      .farmbutton {
+        background: #f3f3f3;
+        height: 50px;
+        font-size: 11px;
+        line-height: 50px;
+        color: #555;
+        text-align: center;
+        border-radius: 10px;
+        width: 420px;
+        border: 0px;
+        margin-top: 5px;
+      }
     </style>
   </head>
   <body>
-    <div class="container">
-      <div class="blank"></div>
-      <div class="title">散触老黄历<sup>Ver1.44</sup></div>
-      <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
-      <div class="line-description">出发触S之前确定不看看么？</div>
-      <div class="blank"></div>
-      <div class="titlebox">
-        <div class="date"></div>
-        <div class="usernamebox">
-          老黄历给
-          <input
-            type="text"
-            name="username"
-            id="yourname"
-            placeholder="你的名字"
-            size="8"
-            maxlength="24"
-            oninput="generateNew()"
-          />
-          的建议:
+    <div id="main" style="width: 1000px; margin: 0 auto 50px">
+      <div class="container">
+        <div class="title">散触老黄历<sup>Ver2.0Beta</sup></div>
+        <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
+        <div class="line-description">出发触S之前确定不看看么？</div>
+        <div class="blank"></div>
+        <div class="titlebox">
+          <div class="date"></div>
+          <div class="usernamebox">
+            老黄历给
+            <input
+              type="text"
+              class="nameinput"
+              name="username"
+              id="yourname"
+              placeholder="你的名字"
+              size="8"
+              maxlength="24"
+              oninput="generateNew()"
+            />
+            的建议:
+          </div>
         </div>
-      </div>
-      <div class="split"></div>
-      <div class="good">
-        <div class="title">
-          <table>
-            <tr>
-              <td>宜</td>
-            </tr>
-          </table>
+        <div class="split"></div>
+        <div class="good">
+          <div class="title">
+            <table>
+              <tr>
+                <td>宜</td>
+              </tr>
+            </table>
+          </div>
+          <div class="content">
+            <ul></ul>
+          </div>
+          <div class="clear"></div>
         </div>
-        <div class="content">
-          <ul></ul>
+        <div class="split"></div>
+        <div class="bad">
+          <div class="title">
+            <table>
+              <tr>
+                <td>忌</td>
+              </tr>
+            </table>
+          </div>
+          <div class="content">
+            <ul></ul>
+          </div>
+          <div class="clear"></div>
         </div>
-        <div class="clear"></div>
-      </div>
-      <div class="split"></div>
-      <div class="bad">
-        <div class="title">
-          <table>
-            <tr>
-              <td>忌</td>
-            </tr>
-          </table>
+        <div class="split"></div>
+        <div class="line-tip">
+          <strong>今日运势：</strong><span class="goddes_value"></span>
         </div>
-        <div class="content">
-          <ul></ul>
+        <div class="line-tip">
+          <strong>座位朝向：</strong>面向<span class="direction_value"></span
+          >触S，最容易出货。
         </div>
-        <div class="clear"></div>
-      </div>
-      <div class="split"></div>
-      <div class="line-tip">
-        <strong>今日运势：</strong><span class="goddes_value"></span>
-      </div>
-      <div class="line-tip">
-        <strong>座位朝向：</strong>面向<span class="direction_value"></span
-        >触S，最容易出货。
-      </div>
-      <div class="line-tip">
-        <strong>烤肉摊位：</strong>在<span class="bbq_value"></span
-        >搓犎牛牛排HQ，阿提卡斯最爱吃。
-      </div>
-      <div class="line-tip">
-        <strong>推荐职业：</strong>使用<span class="drink_value"></span
-        >农怪，效率最高。
-      </div>
+        <div class="line-tip">
+          <strong>烤肉摊位：</strong>在<span class="bbq_value"></span
+          >搓犎牛牛排HQ，阿提卡斯最爱吃。
+        </div>
+        <div class="line-tip">
+          <strong>推荐职业：</strong>使用<span class="drink_value"></span
+          >农怪，效率最高。
+        </div>
 
-      <div class="comment">
-        <ul>
-          <li>此页面魔改自程序员老黄历，非100%原创</li>
-          <li>老黄历为玄学产物，仅供参考，切勿过度迷信</li>
-          <li>请理性游戏，不要让狩猎毁了你的工作/学业</li>
-          <li>Bug反馈和建议请联系上谷崎栞@宇宙和音</li>
-        </ul>
+        <div class="comment">
+          <ul>
+            <li>此页面魔改自程序员老黄历，非100%原创</li>
+            <li>老黄历为玄学产物，仅供参考，切勿过度迷信</li>
+            <li>请理性游戏，不要让狩猎毁了你的工作/学业</li>
+            <li>Bug反馈和建议请联系上谷崎栞@宇宙和音</li>
+          </ul>
+        </div>
+      </div>
+      <div class="toolcol">
+        <!-- 龙蛋计时器 -->
+        <div class="senmurvTimer">
+          <div class="title">小工具：龙蛋计时器</div>
+          <div class="line-description">蹲龙蛋怕记不清次数？</div>
+          <div class="line-description">试试龙蛋计数器吧！</div>
+          <div class="blank"></div>
+          <!-- 用户先选择大区 -->
+          <select id="datacenter" class="dcSel">
+            <option value="">请先选择大区，再添加服务器</option>
+            <option value="niaoye">陆行鸟</option>
+            <option value="maoye">猫小胖</option>
+            <option value="zhuye">莫古力</option>
+            <option value="gouye">豆豆柴</option>
+          </select>
+          <!-- 动态表单 -->
+          <div id="egglist"></div>
+          <!-- 添加按钮 -->
+          <button id="adder" class="addbutton" onclick="addRow()">
+            点击添加服务器
+          </button>
+          <div class="commenttools">
+            <ul>
+              <li>点击[龙蛋]按钮，可自动增加计数并记录时间；</li>
+              <li>点击[铁王八]按钮，输入剩余Ft并确定，可自动倒计时；</li>
+              <li>已完成触发的服务器，可点击最右侧“-”号删除。</li>
+            </ul>
+          </div>
+        </div>
+        <!-- 农怪统寄 -->
+        <div class="farmCalc">
+          <div class="title">小工具：农场统寄助手</div>
+          <div class="line-description">如果你想知道今天寄了多少</div>
+          <div class="line-description">农场统寄小助手可以帮到你！</div>
+          <div class="blank"></div>
+          <!-- 动态表单 -->
+          <div id="farmlist"></div>
+          <button id="farmadder" class="farmbutton">
+            功能开发中，敬请期待
+          </button>
+        </div>
       </div>
     </div>
   </body>
