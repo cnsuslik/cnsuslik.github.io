@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>散触老黄历Ver2.0Beta</title>
+    <title>散触老黄历Ver2.1</title>
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
       //
@@ -1026,7 +1026,7 @@
         rePick(number);
       }
 
-      // 龙蛋计时器相关
+      /* 龙蛋计时器相关 */
 
       const data = {
         niaoye: [
@@ -1060,8 +1060,6 @@
         ],
         gouye: ["水晶塔", "银泪湖", "太阳海岸", "伊修加德", "红茶川"],
       };
-      const dc = document.getElementById("datacenter");
-      const world = document.getElementById("egglist");
 
       // 龙蛋计时器核心功能
       function addRow() {
@@ -1130,11 +1128,24 @@
 
         const confirmBtn = document.createElement("button");
         confirmBtn.textContent = "确定";
-        confirmBtn.className = "recbtn";
+        confirmBtn.className = "yesbtn";
+
+        const cancelBtn = document.createElement("button");
+        cancelBtn.textContent = "取消";
+        cancelBtn.className = "nobtn";
 
         const cdDisplay = document.createElement("span");
         cdDisplay.className = "timer";
         cdDisplay.classList.add("hidden");
+
+        timeInputGroup.append(
+          minuteInput,
+          ":",
+          secondInput,
+          confirmBtn,
+          cancelBtn
+        );
+        inputGroup.appendChild(timeInputGroup);
 
         // 铁王八按钮点击事件
         turtleBtn.onclick = () => {
@@ -1142,8 +1153,14 @@
           turtleBtn.classList.add("hidden");
           timeDisplay.classList.add("hidden");
           inputGroup.classList.remove("hidden");
-          timeInputGroup.append(minuteInput, ":", secondInput, confirmBtn);
-          inputGroup.appendChild(timeInputGroup);
+        };
+
+        // 取消按钮点击事件
+        cancelBtn.onclick = () => {
+          inputGroup.classList.add("hidden");
+          recordBtn.classList.remove("hidden");
+          turtleBtn.classList.remove("hidden");
+          timeDisplay.classList.remove("hidden");
         };
 
         // 确定按钮点击事件
@@ -1227,13 +1244,18 @@
 
       // 更新所有子下拉选项
       function updateAllSub() {
-        const allSub = egglist.getElementByTagName("select");
-        Array.from(allSub).forEach(updateSubSelect);
+        //console.log("updatedAll");
+        var allSub = document.querySelectorAll("#egglist div select");
+        for (let i = 0; i < allSub.length; i++) {
+          updateSubSelect(allSub[i]);
+        }
       }
 
       // 更新单个子下拉选项
       function updateSubSelect(SelectWorld) {
-        const category = datacenter.value;
+        //console.log("updateRow");
+        const dc = document.getElementById("datacenter");
+        const category = dc.value;
         SelectWorld.innerHTML = "";
         if (category) {
           data[category].forEach((item) => {
@@ -1247,61 +1269,258 @@
         }
       }
 
-      datacenter.addEventListener("change", updateAllSub);
+      /* 农怪统寄小助手相关 */
 
-      const yards = [
+      // 用于记录出货数和失败数
+      var SuccCount = 0;
+      var FailCount = 0;
+      var Heritage = 0;
+
+      var yards = [
         {
           label: "沉思之物",
-          value: 300,
+          value: "300",
         },
         {
           label: "颇胝迦",
-          value: 300,
+          value: "300",
         },
         {
           label: "伊休妲",
-          value: 300,
+          value: "300",
         },
         {
           label: "优昙婆罗花",
-          value: 200,
+          value: "200",
         },
         {
           label: "巨大鳐",
-          value: 200,
+          value: "200",
         },
         {
           label: "卢克洛塔",
-          value: 150,
+          value: "150",
         },
         {
           label: "蚓螈巨虫",
-          value: 100,
+          value: "100",
         },
       ];
 
-      function addFarm() {
+      // 更新失败数并推送
+      function updateFail(num) {
+        FailCount = FailCount + num;
+        // 当所有计数被清空时折叠统计窗口
+        if (FailCount == 0 && SuccCount == 0) {
+          var resUpdate = document.getElementById("res");
+          resUpdate.innerHTML = "";
+          return;
+        }
+        const rate = (100 * SuccCount) / (FailCount + SuccCount);
+        const rateformat = Math.round(rate * 100) / 100;
+        const sgqk = Math.round(FailCount / 18) / 100;
+        var resUpdate = document.getElementById("res");
+        resUpdate.innerHTML =
+          "<div class='restext'>当前总计出货 <span class='succnum'>" +
+          SuccCount +
+          "</span> 只怪，出货率 <span class='succnum'>" +
+          rateformat +
+          "%</span>，共吃到约 <span class='succnum'>" +
+          Heritage +
+          "</span> 只遗产</div><div class='restext2'>总共寄了 <span class='failnum'>" +
+          FailCount +
+          "</span> 只怪，约合 <span class='failnum'>" +
+          sgqk +
+          "</span> 个1800</div>";
+      }
+
+      // 更新成功数并推送
+      function updateSucc(num, maxvalue) {
+        // 农怪总数>农场容量时，超过部分自动并入失败统计
+        if (Math.abs(num) > maxvalue) {
+          SuccCount = SuccCount + maxvalue * Math.sign(num);
+          FailCount = FailCount + num - maxvalue * Math.sign(num);
+        } else {
+          SuccCount = SuccCount + num;
+          Heritage = Heritage + maxvalue * Math.sign(num) - num; //统计遗产
+        }
+        // 当所有计数被清空时折叠统计窗口
+        if (FailCount == 0 && SuccCount == 0) {
+          var resUpdate = document.getElementById("res");
+          resUpdate.innerHTML = "";
+          return;
+        }
+        const rate = (100 * SuccCount) / (FailCount + SuccCount);
+        const rateformat = Math.round(rate * 100) / 100;
+        const sgqk = Math.round(FailCount / 18) / 100;
+        var resUpdate = document.getElementById("res");
+        resUpdate.innerHTML =
+          "<div class='restext'>当前总计出货 <span class='succnum'>" +
+          SuccCount +
+          "</span> 只怪，出货率 <span class='succnum'>" +
+          rateformat +
+          "%</span>，共吃到约 <span class='succnum'>" +
+          Heritage +
+          "</span> 只遗产</div><div class='restext2'>总共寄了 <span class='failnum'>" +
+          FailCount +
+          "</span> 只怪，约合 <span class='failnum'>" +
+          sgqk +
+          "</span> 个1800</div>";
+      }
+
+      function addFarmBad() {
         const farmrow = document.createElement("div");
-        farmrow.className = "row";
-        /*
+        farmrow.className = "farmRow";
+
+        // 好大一个寄
+        const Failure = document.createElement("div");
+        Failure.className = "failed";
+        Failure.textContent = "寄";
+        farmrow.appendChild(Failure);
+
+        // 服务器下拉列表
+        const subSelect = document.createElement("select");
+        subSelect.className = "worldSelFarm";
+        updateSubSelectFarm(subSelect);
+        farmrow.appendChild(subSelect);
+
+        // 农场选择列表
         const farmyardSelect = document.createElement("select");
+        farmyardSelect.className = "farmSel";
         for (let i = 0; i < yards.length; i++) {
-          const option = document.createElement("option");
+          let option = document.createElement("option");
           option.value = yards[i].value;
           option.textContent = yards[i].label;
           farmyardSelect.appendChild(option);
         }
-*/
+        farmrow.appendChild(farmyardSelect);
+        let currentSel = parseInt(farmyardSelect.value);
+        updateFail(currentSel); // 新添加的记录先默认进行累加
+        farmyardSelect.onchange = () => {
+          let newSel = parseInt(farmyardSelect.value);
+          updateFail(newSel - currentSel);
+          currentSel = newSel;
+        };
+
         const delBtn = document.createElement("button");
         delBtn.textContent = "-";
         delBtn.className = "delebtn";
         delBtn.onclick = () => {
+          updateFail(0 - currentSel);
           farmrow.remove();
-          //updateTotal();
+        };
+        const controls = document.createElement("div");
+        controls.className = "controls";
+        controls.append(delBtn);
+
+        farmrow.appendChild(controls);
+        document.querySelector("#farmlist").appendChild(farmrow);
+      }
+
+      function addFarmGood() {
+        const farmrow = document.createElement("div");
+        farmrow.className = "farmRow";
+
+        // 出货
+        const success = document.createElement("div");
+        success.className = "succeed";
+        success.textContent = "出";
+        farmrow.appendChild(success);
+
+        // 服务器下拉列表
+        const subSelect = document.createElement("select");
+        subSelect.className = "worldSelFarm";
+        updateSubSelectFarm(subSelect);
+        farmrow.appendChild(subSelect);
+
+        // 农场选择列表
+        const farmyardSelect = document.createElement("select");
+        farmyardSelect.className = "farmSel";
+        for (let i = 0; i < yards.length; i++) {
+          let option = document.createElement("option");
+          option.value = yards[i].value;
+          option.textContent = yards[i].label;
+          farmyardSelect.appendChild(option);
+        }
+        farmrow.appendChild(farmyardSelect);
+
+        // 出货计数
+        const counts = document.createElement("input");
+        counts.type = "number";
+        counts.min = 1;
+        counts.max = 5400; // 合3个sgqk
+        counts.placeholder = "农怪数";
+        counts.className = "farmcount";
+
+        // 根据输入实时更新统计
+        let currentnum = 0;
+        let currentSel = parseInt(farmyardSelect.value);
+
+        // 当农场被重新选择时，上限会被改变
+        farmyardSelect.onchange = () => {
+          let newSel = parseInt(farmyardSelect.value);
+          updateSucc(0 - currentnum, currentSel); // 先以原农场容量取出计数
+          updateSucc(currentnum, newSel); // 再以新农场容量存入计数
+          currentSel = newSel;
         };
 
-        farmrow.append(delBtn);
-        farmlist.appendChild(farmrow);
+        counts.oninput = () => {
+          let newnum = parseInt(counts.value);
+          // 判断一下是否存在由于用户清空输入框产生的错误
+          if (!isNaN(newnum)) {
+            updateSucc(0 - currentnum, currentSel);
+            updateSucc(newnum, currentSel);
+            currentnum = newnum;
+          } else {
+            updateSucc(0 - currentnum, currentSel);
+            currentnum = 0;
+          }
+        };
+        farmrow.appendChild(counts);
+
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "-";
+        delBtn.className = "delebtn";
+        delBtn.onclick = () => {
+          updateSucc(0 - currentnum, currentSel);
+          farmrow.remove();
+        };
+        const controls = document.createElement("div");
+        controls.className = "controls";
+        controls.append(delBtn);
+
+        farmrow.appendChild(controls);
+        document.querySelector("#farmlist").appendChild(farmrow);
+      }
+
+      // 更新所有子下拉选项(农场助手专用)
+      function updateAllFarm() {
+        //console.log("updatedAll");
+        var allSub = document.querySelectorAll("#farmlist div select");
+        for (let i = 0; i < allSub.length; i++) {
+          // 过滤农场选择框，只保留服务器选择框
+          if (allSub[i].className == "worldSelFarm") {
+            updateSubSelectFarm(allSub[i]);
+          }
+        }
+      }
+
+      // 更新单个子下拉选项（农场助手专用）
+      function updateSubSelectFarm(SelectWorld) {
+        //console.log("updateRow");
+        const dc = document.getElementById("datacenterfarm");
+        const category = dc.value;
+        SelectWorld.innerHTML = "";
+        if (category) {
+          data[category].forEach((item) => {
+            const option = new Option(item, item);
+            SelectWorld.add(option);
+          });
+        } else {
+          const option = new Option("请先选择所在大区", "");
+          option.disabled = true;
+          SelectWorld.add(option);
+        }
       }
     </script>
 
@@ -1719,8 +1938,42 @@
         color: #353535;
       }
 
+      .yesbtn {
+        width: 40px;
+        height: 30px;
+        background: #44a559;
+        border: 0px;
+        color: #ffffff;
+        border-radius: 4px;
+        font-weight: bold;
+        text-align: center;
+        margin-left: 2px;
+      }
+
+      .yesbtn:hover {
+        background: #ddd;
+        color: #353535;
+      }
+
+      .nobtn {
+        width: 40px;
+        height: 30px;
+        background: #bb3333;
+        border: 0px;
+        color: #ffffff;
+        border-radius: 4px;
+        font-weight: bold;
+        text-align: center;
+        margin-left: 2px;
+      }
+
+      .nobtn:hover {
+        background: #ddd;
+        color: #353535;
+      }
+
       .delebtn {
-        background: #ff4444;
+        background: #bb3333;
         color: #ffffff;
       }
 
@@ -1737,9 +1990,8 @@
       }
 
       .delebtn:hover {
-        background: #ffffff;
-        color: #ff4444;
-        border: 2px solid #ff4444;
+        background: #b2b2b2;
+        color: #e7e7e7;
       }
 
       .commenttools {
@@ -1751,6 +2003,7 @@
       .commenttools ul {
         margin-left: 0;
         padding-left: 20px;
+        padding-right: 12px;
         color: #999;
       }
 
@@ -1766,7 +2019,19 @@
         padding: 5px 15px;
       }
 
-      .farmbutton {
+      .farmRow {
+        width: 420px;
+        height: 60px;
+        background: #f3f3f3;
+        border: 0px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 5px;
+      }
+
+      .farmbuttonBad {
         background: #f3f3f3;
         height: 50px;
         font-size: 11px;
@@ -1774,16 +2039,149 @@
         color: #555;
         text-align: center;
         border-radius: 10px;
-        width: 420px;
+        width: 205px;
         border: 0px;
-        margin-top: 5px;
+        float: left;
+      }
+
+      .farmbuttonBad:hover {
+        background: #bb3333;
+        color: #eee;
+      }
+
+      .farmbuttonGood {
+        background: #f3f3f3;
+        height: 50px;
+        font-size: 11px;
+        line-height: 50px;
+        color: #555;
+        text-align: center;
+        border-radius: 10px;
+        width: 205px;
+        border: 0px;
+        margin-left: 10px;
+      }
+
+      .farmbuttonGood:hover {
+        background: #44a559;
+        color: #f3f3f3;
+      }
+
+      .worldSelFarm {
+        width: 80px;
+        height: 30px;
+        color: #353535;
+        background: #f3f3f3;
+        border: 1px solid #353535;
+        border-radius: 4px;
+      }
+
+      .farmSel {
+        width: 100px;
+        height: 30px;
+        color: #353535;
+        background: #f3f3f3;
+        border: 1px solid #353535;
+        border-radius: 4px;
+        text-align: center;
+      }
+
+      .failed {
+        width: 45px;
+        font-weight: bold;
+        font-size: 15pt;
+        height: 60px;
+        border-radius: 10px 0px 0px 10px;
+        text-align: center;
+        line-height: 61px;
+        padding-left: 1px;
+        margin-right: 5px;
+      }
+
+      .failed {
+        background: #bb3333;
+        color: #fff;
+      }
+
+      .succeed {
+        width: 45px;
+        font-weight: bold;
+        font-size: 15pt;
+        height: 60px;
+        border-radius: 10px 0px 0px 10px;
+        text-align: center;
+        line-height: 61px;
+        padding-left: 1px;
+        margin-right: 5px;
+      }
+
+      .succeed {
+        background: #44a559;
+        color: #fff;
+      }
+
+      .farmcount {
+        width: 70px;
+        height: 26px;
+        text-align: center;
+        border: 1px solid #353535;
+        border-radius: 4px;
+        background: #f3f3f3;
+        color: #353535;
+        font-size: 12pt;
+      }
+
+      .farmcount::placeholder {
+        font-size: 10pt;
+      }
+
+      .farmRes {
+        width: 420px;
+        border: 2px solid #353535;
+        border-left: 0px;
+        border-right: 0px;
+        border-bottom: 0px;
+        border-radius: 0px 0px 10px 10px;
+        background: #ffffff;
+        margin-top: 10px;
+        margin-bottom: -5px;
+      }
+
+      .farmRes ul {
+        color: #666;
+        margin-left: -35px;
+        margin-top: -2px;
+      }
+
+      .succnum {
+        font-weight: bold;
+        font-size: 15pt;
+        color: #44a559;
+      }
+
+      .failnum {
+        font-weight: bold;
+        font-size: 15pt;
+        color: #bb3333;
+      }
+
+      .restext {
+        margin-top: 15px;
+        font-size: 8pt;
+        text-align: center;
+      }
+
+      .restext2 {
+        font-size: 8pt;
+        padding-bottom: 15px;
+        text-align: center;
       }
     </style>
   </head>
   <body>
     <div id="main" style="width: 1000px; margin: 0 auto 50px">
       <div class="container">
-        <div class="title">散触老黄历<sup>Ver2.0Beta</sup></div>
+        <div class="title">散触老黄历<sup>Ver2.1</sup></div>
         <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
         <div class="line-description">出发触S之前确定不看看么？</div>
         <div class="blank"></div>
@@ -1866,7 +2264,7 @@
           <div class="line-description">试试龙蛋计数器吧！</div>
           <div class="blank"></div>
           <!-- 用户先选择大区 -->
-          <select id="datacenter" class="dcSel">
+          <select id="datacenter" class="dcSel" onchange="updateAllSub()">
             <option value="">请先选择大区，再添加服务器</option>
             <option value="niaoye">陆行鸟</option>
             <option value="maoye">猫小胖</option>
@@ -1893,11 +2291,42 @@
           <div class="line-description">如果你想知道今天寄了多少</div>
           <div class="line-description">农场统寄小助手可以帮到你！</div>
           <div class="blank"></div>
+          <!-- 用户先选择大区 -->
+          <select id="datacenterfarm" class="dcSel" onchange="updateAllFarm()">
+            <option value="">请先选择大区，再添加服务器</option>
+            <option value="niaoye">陆行鸟</option>
+            <option value="maoye">猫小胖</option>
+            <option value="zhuye">莫古力</option>
+            <option value="gouye">豆豆柴</option>
+          </select>
           <!-- 动态表单 -->
           <div id="farmlist"></div>
-          <button id="farmadder" class="farmbutton">
-            功能开发中，敬请期待
+          <div id="farmresult" class="farmRes"><ul id="res"></ul></div>
+          <button
+            id="farmadderBad"
+            class="farmbuttonBad"
+            onclick="addFarmBad()"
+          >
+            点击添加农怪寄录
           </button>
+          <button
+            id="farmadderGood"
+            class="farmbuttonGood"
+            onclick="addFarmGood()"
+          >
+            点击添加出货记录
+          </button>
+          <div class="commenttools">
+            <ul>
+              <li>添加失败寄录和出货记录，农场统寄助手会自动汇总全部数据；</li>
+              <li>添加出货记录时，需输入实际农怪数字，最大5400(合3个sgqk)；</li>
+              <li>反复寄多次的农场，需添加多条该农场的失败寄录；</li>
+              <li>
+                农多次才出的农场，建议直接添加出货记录并输入总农数，以更准确地计算遗产（若此前已添加该农场的寄录，此时需将它们删除）
+              </li>
+              <li>大区和服务器选择仅用作记录，不影响最终结果汇总。</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
