@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>散触老黄历Ver2.11</title>
+    <title>散触老黄历Ver2.12</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?" />
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
@@ -836,11 +836,11 @@
         var numBad = (random(iday + num, 87) % 3) + 2;
         var eventArr = pickRandomActivity(_activities, numGood + numBad, num);
 
-        var specialSize = pickSpecials();
-
         //重置事件
         $(".good .content ul").html("");
         $(".bad .content ul").html("");
+        
+        var specialSize = pickSpecials();
 
         for (var i = 0; i < numGood; i++) {
           addToGood(eventArr[i]);
@@ -2182,7 +2182,7 @@
   <body>
     <div id="main" style="width: 1000px; margin: 0 auto 50px">
       <div class="container">
-        <div class="title">散触老黄历<sup>Ver2.11</sup></div>
+        <div class="title">散触老黄历<sup>Ver2.12</sup></div>
         <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
         <div class="line-description">出发触S之前确定不看看么？</div>
         <div class="blank"></div>
