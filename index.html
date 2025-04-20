@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>散触老黄历Ver2.13</title>
+    <title>散触老黄历Ver2.2</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?" />
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
@@ -25,6 +25,8 @@
         today.getFullYear() * 10000 +
         (today.getMonth() + 1) * 100 +
         today.getDate();
+
+      const maintainday = 20250422;
 
       var weeks = ["日", "一", "二", "三", "四", "五", "六"];
       var directions = [
@@ -82,432 +84,504 @@
           good: "成为299巨大遗产继承人！",
           bad: "农了1800都没气",
           weekend: true,
+          d1: false,
         },
         {
           name: "过饱和式农怪",
           good: "好耶，才补两只就出了",
           bad: "又补了300，怎么还没气",
           weekend: true,
+          d1: false,
         },
         {
           name: "合农",
           good: "分工合作，干活不累",
           bad: "队友觉得是你把S吓跑了",
           weekend: true,
+          d1: true,
         },
         {
           name: "排点",
           good: "一路顺畅光速下班",
           bad: "追杀花篮四小时也没排完",
           weekend: true,
+          d1: true,
         },
         {
           name: "守床位",
           good: "睡下的时候风平浪静，起来的时候刚好出货",
           bad: "镇压王就是你",
           weekend: true,
+          d1: false,
         },
         {
           name: "丢%v",
           good: "随手一丢就出货",
           bad: "舍弃了幻梦武器箱",
           weekend: true,
+          d1: false,
         },
         {
           name: "农%t",
           good: "海量遗产等你来领",
           bad: "你就是遗产",
           weekend: true,
+          d1: false,
         },
         {
           name: "喂水蛭",
           good: "一发口锥见图图",
           bad: "你被冰海天使打倒了",
           weekend: true,
+          d1: false,
         },
         {
           name: "农南萨",
           good: "今天的南萨地图格外清爽",
           bad: "噔噔咚，沙漠皇帝失败！",
           weekend: true,
+          d1: true,
         },
         {
           name: "组织芒批",
           good: "光明芒批头子就是你！",
           bad: "一路暗黑全寄",
           weekend: true,
+          d1: false,
         },
         {
           name: "采棉花",
           good: "成功吃到路人遗产",
           bad: "加油啊，采棉花的大哥哥们",
           weekend: true,
+          d1: false,
         },
         {
           name: "挖刚子",
           good: "刚好就差你这一轮",
           bad: "单挖10个窗口都没动静",
           weekend: true,
+          d1: false,
         },
         {
           name: "挖护土",
           good: "一镐下去就出货",
           bad: "路人豆芽随便一挖就出",
           weekend: true,
+          d1: false,
         },
         {
           name: "挖牛牛",
           good: "第一发就出气",
           bad: "都挖了三轮了，真的不是丢了吗",
           weekend: true,
+          d1: false,
         },
         {
           name: "挖G7",
           good: "单图龙低，开图苍白！",
           bad: "花呗借款也触不出苍白骑士",
           weekend: true,
+          d1: false,
         },
         {
           name: "触阿格里帕",
           good: "一发摩杜纳，开图出气！",
           bad: "诗学图没了，不会要挖G5吧……",
           weekend: true,
+          d1: false,
         },
         {
           name: "站岗伽洛克",
           good: "成功接生早产jlk",
           bad: "站到强制发现丢了！",
           weekend: true,
+          d1: true,
         },
         {
           name: "钓%l",
           good: "刚坐下就是鱼王竿",
           bad: "半天不舔，舔了不起，起了没气",
           weekend: true,
+          d1: false,
         },
         {
           name: "坐鸟车",
           good: "爬爬算什么概率S，直接一发入魂",
           bad: "鸟房：嘿嘿，赚麻了",
           weekend: true,
+          d1: false,
         },
         {
           name: "蹲龙蛋",
           good: "使用龙蛋计数器，轻松五连无压力",
           bad: "为什么！为什么又是铁王八！",
           weekend: true,
+          d1: false,
         },
         {
           name: "炸多智兽",
           good: "一炸一个准",
           bad: "装备耐久度降为0……",
           weekend: true,
+          d1: false,
         },
         {
           name: "炸阿姆斯特朗",
           good: "一炸一个准",
           bad: "装备耐久度降为0……",
           weekend: true,
+          d1: false,
         },
         {
           name: "触萨法特",
           good: "吉田概率学不存在",
           bad: "吉田概率学魅力时刻",
           weekend: true,
+          d1: false,
         },
         {
           name: "蹲饮火魔",
-          good: "救火救得快，山哥来得早",
+          good: "蹲到了低进度报恩山",
           bad: "喜报：山谢亚强制了",
           weekend: true,
+          d1: false,
         },
         {
           name: "搓牛排",
           good: "牛排仙人就是你",
           bad: "不知不觉又搓满一组999",
           weekend: true,
+          d1: false,
         },
         {
           name: "吹雪",
           good: "嘀嘀嘀，现在为你播送天气预报！",
           bad: "雪是喷到强制的，气是一点都没的",
           weekend: true,
+          d1: false,
         },
         {
           name: "触理符S",
           good: "单抽一发入魂！",
           bad: "受理额度不足……",
           weekend: true,
+          d1: false,
         },
         {
           name: "触小S",
           good: "你就是今天的小S守护神！",
           bad: "怎么小S都不出货？",
           weekend: true,
+          d1: true,
         },
         {
           name: "触5S",
           good: "你就是今天的诺弗兰特守护神",
           bad: "笑死，根本不出货",
           weekend: true,
+          d1: false,
         },
         {
           name: "触6S",
           good: "你就是今天的晓月守护神",
           bad: "笑死，根本不出货",
           weekend: true,
+          d1: false,
         },
         {
           name: "触7S",
           good: "一个人触了一波7S连车",
           bad: "笑死，根本不出货",
           weekend: true,
+          d1: false,
         },
         {
           name: "触石板",
           good: "刚来就有石人英雄",
           bad: "等到天荒地老都只有霸道归来者",
           weekend: true,
+          d1: false,
         },
         {
           name: "和斯奎克约会",
           good: "拒绝动物表演！",
           bad: "路人豆芽不知什么时候把你skk打了",
           weekend: true,
+          d1: false,
         },
         {
           name: "低进度梭哈",
           good: "什么叫高触！",
           bad: "还是不要追梦了吧",
           weekend: true,
+          d1: true,
         },
         {
           name: "中等进度赌脸",
           good: "40%值得一试",
           bad: "正态分布什么的都是骗人的",
           weekend: true,
+          d1: true,
         },
         {
           name: "高进度会诊",
           good: "来的时候S刚好回家",
           bad: "警惕高进度栽种！",
           weekend: true,
+          d1: true,
         },
         {
           name: "跟A车",
           good: "一趟下来结束刚好出S",
           bad: "路上错过三只大S",
           weekend: true,
+          d1: true,
         },
         {
           name: "巡全服",
           good: "你的英名远播八服",
           bad: "前脚刚走，后脚别人就出了",
           weekend: true,
+          d1: true,
         },
         {
           name: "守本服",
           good: "你就是今天的老家守护神",
           bad: "今天老家的S都是栽种",
           weekend: true,
+          d1: true,
         },
         {
           name: "死磕单个S",
           good: "坚持到底终将胜利！",
           bad: "头铁是没有好结果的",
           weekend: true,
+          d1: true,
         },
         {
           name: "冒领ET",
           good: "路人纷纷称赞你高超的数学水平",
           bad: "因为算错时间被路人出警了",
           weekend: true,
+          d1: true,
         },
         {
           name: "刷小巨魔",
           good: "第一把就掉宠物了",
           bad: "刷了二十次也没见到宠物",
           weekend: true,
+          d1: true,
         },
         {
           name: "和畜畜对线",
           good: "路人们纷纷对你表示支持",
           bad: "路人把你挂上了贴吧",
           weekend: true,
+          d1: true,
         },
         {
           name: "早起",
           good: "一早起来就是S车",
           bad: "迷迷糊糊跑错服务器了",
           weekend: true,
+          d1: false,
         },
         {
           name: "午睡",
           good: "一觉醒来，风平浪静，什么也没错过",
           bad: "一觉醒来，错过十几个S……",
           weekend: true,
+          d1: false,
         },
         {
           name: "晚睡",
           good: "睡前连车！",
           bad: "再触一个就睡……然后不知不觉天亮了",
           weekend: true,
+          d1: true,
         },
         {
           name: "等开怪时贪双色",
           good: "血赚72",
           bad: "贪着贪着错过了开怪……",
           weekend: true,
+          d1: false,
         },
         {
           name: "等开怪时搓生产",
           good: "时间管理大师",
           bad: "路人玩怪把你雾绢炸了",
           weekend: true,
+          d1: false,
         },
         {
           name: "等开怪时蹲饮火魔",
           good: "救完火直接给大伙加餐！",
           bad: "饮火魔没蹲到，还忘记时间没摸到S",
           weekend: true,
+          d1: false,
         },
         {
           name: "触中萨",
           good: "随便找了个点一试就是大眼",
           bad: "水煮蛋吃噎了也不见大眼",
           weekend: true,
+          d1: false,
         },
         {
           name: "触完就跑",
           good: "事了拂衣去，深藏功与名",
           bad: "你的S被路人私闷了",
           weekend: true,
+          d1: true,
         },
         {
           name: "晨练",
           good: "一大早哐哐农出S车",
           bad: "没睡醒，农完才发现农错服了！",
           weekend: true,
+          d1: false,
         },
         {
           name: "开鱼眼钓审判鳐",
           good: "鱼眼战神就是你！",
           bad: "好不容易起了也还是没气",
           weekend: true,
+          d1: false,
         },
         {
           name: "边刷剧边农怪",
           good: "充分利用时间，农怪不无聊",
           bad: " 一不留神农错服了",
           weekend: true,
+          d1: false,
         },
         {
           name: "边听歌边农怪",
           good: "专属BGM大幅提升效率",
           bad: "一个分心农错服了",
           weekend: true,
+          d1: false,
         },
         {
           name: "触特殊FATE",
           good: "触FATE也是触！",
           bad: "打半天前置没动静，怎么看都是丢了吧！",
           weekend: true,
+          d1: true,
         },
         {
           name: "触幻海流",
           good: "触幻海流也是触！",
           bad: "S没气就算了，怎么幻海流也触不出来！",
           weekend: true,
+          d1: true,
         },
         {
           name: "挖G17",
           good: "一个S都没错过，还出了武器箱",
           bad: "错过一堆S，武器箱也不出，这辈子就毁在的狞上了",
           weekend: true,
+          d1: true,
         },
         {
           name: "翘班吃S",
           good: "你的领导今天也翘班打游戏",
           bad: "HR：明天去财务那结下工资",
           weekend: false,
+          d1: true,
         },
         {
           name: "请假吃S",
           good: "一天下来吃了不少，这假请得真值",
           bad: "你装病请假被领导发现了",
           weekend: false,
+          d1: true,
         },
         {
           name: "边上班边吃S",
           good: "上班就是为了摸鱼！",
           bad: "摸鱼被领导发现了",
           weekend: false,
+          d1: true,
         },
         {
           name: "边上班边农怪",
           good: "农批永远不受时间地点限制！",
           bad: "农怪导致你的工作出现重大纰漏",
           weekend: false,
+          d1: false,
         },
         {
           name: "翘专业课吃S",
           good: "今天的专业课比狩猎还水",
           bad: "室友回来告诉你今天有点名",
           weekend: false,
+          d1: true,
         },
         {
           name: "通勤时手机远程吃S",
           good: "没有人能阻止猎批！",
           bad: "因为信号太差，你脸开了",
           weekend: false,
+          d1: true,
         },
         {
           name: "边写论文边狩猎",
           good: "狩猎给你的论文带来了不少灵感",
           bad: "导师：你怎么废话连篇还一堆错别字！",
           weekend: false,
+          d1: true,
         },
         {
           name: "边复习边狩猎",
           good: "据说狩猎有助于大脑开发提高学习效率",
           bad: "笔记一条都没记住，这辈子毁在狩猎上了",
           weekend: false,
+          d1: true,
         },
         {
           name: "专心赶DDL",
           good: "一天下来竟没错过一个大S",
           bad: "交完稿发现今天错过一堆S车",
           weekend: false,
+          d1: true,
         },
         {
           name: "招募版吃瓜",
           good: "前排瓜子板凳小零食——",
           bad: "沉迷吃瓜错过一堆S，而且瓜还烂尾了！",
           weekend: true,
+          d1: true,
         },
         {
           name: "做数学题",
           good: "没人再说你算错ET了",
           bad: "二七不是四十八么？散触数学不好是有原因的……",
           weekend: true,
+          d1: true,
         },
         {
           name: "和猎批玩你画我猜",
           good: "新的群头像诞生了！",
           bad: "这就是你偷懒不去农怪的理由？",
           weekend: true,
+          d1: true,
         },
         {
           name: "玩怪猎",
           good: "在哪猎不是猎！",
           bad: "你因为输出太菜被别的猎批群嘲了",
           weekend: true,
+          d1: true,
         },
         {
           name: "拉豆芽入坑S怪狩猎",
           good: "豆芽成为一颗猎批界冉冉升起的新星！",
           bad: "豆芽被一群猎批吓傻了，从此再也没来找你玩",
           weekend: true,
+          d1: true,
         },
       ];
 
@@ -519,10 +593,46 @@
           description: "嘟嘟嘟，羊驼山观光车！",
         },
         {
-          date: 20250411,
+          date: 20250420,
           type: "good",
-          name: "熬夜跟车羊驼山",
-          description: "周末晚上就是用来吃S车的",
+          name: "通宵",
+          description: "既然早上起不来，不如直接通宵等羊驼山！",
+        },
+        {
+          date: maintainday,
+          type: "good",
+          name: "维护前冲刺巡逻",
+          description: "死亡冲锋！！",
+        },
+        {
+          date: maintainday,
+          type: "good",
+          name: "维护时和猎批玩你画我猜",
+          description: "新的群头像和表情包有了",
+        },
+        {
+          date: maintainday,
+          type: "good",
+          name: "开服后找A怪",
+          description: "精准推算服务器重启时间！",
+        },
+        {
+          date: maintainday + 1,
+          type: "good",
+          name: "蹲守南迪",
+          description: "没事可做就蹲蹲南迪吧！",
+        },
+        {
+          date: maintainday + 2,
+          type: "good",
+          name: "测试连锁",
+          description: "发现了新的稳定连锁",
+        },
+        {
+          date: maintainday + 3,
+          type: "good",
+          name: "测试连锁",
+          description: "发现了新的稳定连锁",
         },
         {
           date: 20250531,
@@ -884,6 +994,21 @@
         }
 
         for (var i = 0; i < numBad; i++) {
+          if (
+            iday == maintainday &&
+            eventArr[numGood + i].name == "和猎批玩你画我猜"
+          ) {
+            continue;
+            // 维护日冲突事件直接跳过
+          }
+          if (
+            iday == maintainday + 1 &&
+            eventArr[numGood + i].name == "跟A车"
+          ) {
+            addToGood(eventArr[numGood + i]);
+            continue;
+            // 维护后Day1的A车强制转为宜
+          }
           addToBad(eventArr[numGood + i]);
         }
       }
@@ -907,6 +1032,21 @@
         }
 
         for (var i = 0; i < numBad; i++) {
+          if (
+            iday == maintainday &&
+            eventArr[numGood + i].name == "和猎批玩你画我猜"
+          ) {
+            continue;
+            // 维护日冲突事件直接跳过
+          }
+          if (
+            iday == maintainday + 1 &&
+            eventArr[numGood + i].name == "跟A车"
+          ) {
+            addToGood(eventArr[numGood + i]);
+            continue;
+            // 维护后Day1的A车强制转为宜
+          }
           addToBad(eventArr[numGood + i]);
         }
       }
@@ -915,6 +1055,16 @@
 
       function filter(activities) {
         var result = [];
+
+        // 维护日首日事件过滤
+        if (iday == maintainday + 1) {
+          for (var i = 0; i < activities.length; i++) {
+            if (activities[i].d1) {
+              result.push(activities[i]);
+            }
+          }
+          return result;
+        }
 
         // 周末的话，只留下 weekend = true 的事件
         if (isWeekend()) {
@@ -2250,7 +2400,7 @@
   <body>
     <div id="main" style="width: 1000px; margin: 0 auto 50px">
       <div class="container">
-        <div class="title">散触老黄历<sup>Ver2.13</sup></div>
+        <div class="title">散触老黄历<sup>Ver2.2</sup></div>
         <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
         <div class="line-description">出发触S之前确定不看看么？</div>
         <div class="blank"></div>
