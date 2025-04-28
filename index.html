@@ -2,11 +2,15 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>散触老黄历Ver2.2</title>
+    <title>散触老黄历Ver2.21</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?" />
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
       //
+      // 标签页心跳
+      setInterval(function () {
+        fetch("/heartbeat", { method: "POST" });
+      }, 60000);
 
       /*
        * 注意：本程序中的“随机”都是伪随机概念，以当前的天为种子。
@@ -587,16 +591,16 @@
 
       var specials = [
         {
-          date: 20250421,
+          date: 20250502,
           type: "good",
-          name: "早起跟车羊驼山",
+          name: "半夜起来跟羊驼山",
           description: "嘟嘟嘟，羊驼山观光车！",
         },
         {
-          date: 20250420,
+          date: 20250501,
           type: "good",
-          name: "通宵",
-          description: "既然早上起不来，不如直接通宵等羊驼山！",
+          name: "熬大夜跟车羊驼山",
+          description: "你见过凌晨4点的羊驼山吗？",
         },
         {
           date: maintainday,
@@ -1319,7 +1323,7 @@
         turtleBtn.textContent = "铁王八";
         turtleBtn.className = "recbtn";
         const inputGroup = document.createElement("div");
-        inputGroup.className = "hidden";
+        inputGroup.classList.add("hidden");
         inputGroup.style.gap = "5px";
 
         // 铁王八剩余时间输入框
@@ -1396,10 +1400,8 @@
           // 更新界面状态
           inputGroup.classList.add("hidden");
           cdDisplay.classList.remove("hidden");
-          while (inputGroup.firstChild) {
-            inputGroup.removeChild(inputGroup.firstChild);
-          }
-          timeInputGroup.innerHTML = "";
+          minuteInput.value = "";
+          secondInput.value = "";
 
           // 显示倒计时
           cdDisplay.textContent = `-铁王八剩余${minutes}分${seconds
@@ -1442,6 +1444,7 @@
 
       function startCountdown(seconds, displayElement, callback) {
         let remaining = seconds;
+        let audio = document.getElementById("alarmSound");
         const timer = setInterval(() => {
           remaining--;
           const mins = Math.floor(remaining / 60);
@@ -1452,6 +1455,7 @@
 
           if (remaining <= 0) {
             clearInterval(timer);
+            audio.play();
             callback();
           }
         }, 1000);
@@ -2400,7 +2404,7 @@
   <body>
     <div id="main" style="width: 1000px; margin: 0 auto 50px">
       <div class="container">
-        <div class="title">散触老黄历<sup>Ver2.2</sup></div>
+        <div class="title">散触老黄历<sup>Ver2.21</sup></div>
         <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
         <div class="line-description">出发触S之前确定不看看么？</div>
         <div class="blank"></div>
@@ -2484,6 +2488,8 @@
           </ul>
         </div>
       </div>
+      <audio id="alarmSound" src="SFX.wav" preload="auto"></audio>
+      <audio src="silent.mp3" autoplay loop></audio>
       <div class="toolcol">
         <!-- 龙蛋计时器 -->
         <div class="senmurvTimer">
@@ -2510,6 +2516,12 @@
               <li>点击[龙蛋]按钮，可自动增加计数并记录时间；</li>
               <li>点击[铁王八]按钮，输入剩余Ft并确定，可自动倒计时；</li>
               <li>已完成触发的服务器，可点击最右侧“-”号删除。</li>
+              <li>
+                受Chrome等浏览器的省电策略影响，铁王八计时器可能出现倒计时不准确或暂停工作的情况。
+              </li>
+              <li>
+                本页面已采取有限手段来避免后台休眠，但作者强烈建议<strong>保持本页面活跃（如置顶本页面窗口、定时与本页面交互等）</strong>以确保计时器正常工作。
+              </li>
             </ul>
           </div>
         </div>
