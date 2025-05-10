@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>散触老黄历Ver2.21</title>
+    <title>散触老黄历Ver2.22</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?" />
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
@@ -591,9 +591,9 @@
 
       var specials = [
         {
-          date: 20250502,
+          date: 20250511,
           type: "good",
-          name: "半夜起来跟羊驼山",
+          name: "跟车羊驼山",
           description: "嘟嘟嘟，羊驼山观光车！",
         },
         {
@@ -1445,6 +1445,13 @@
       function startCountdown(seconds, displayElement, callback) {
         let remaining = seconds;
         let audio = document.getElementById("alarmSound");
+
+        displayElement.onclick = () => {
+          clearInterval(timer);
+          callback();
+          return;
+        };
+
         const timer = setInterval(() => {
           remaining--;
           const mins = Math.floor(remaining / 60);
@@ -2232,7 +2239,7 @@
 
       .farmCalc {
         width: 420px;
-        margin-top: 80px;
+        margin-top: 50px;
       }
 
       .farmCalc > .title {
@@ -2404,7 +2411,7 @@
   <body>
     <div id="main" style="width: 1000px; margin: 0 auto 50px">
       <div class="container">
-        <div class="title">散触老黄历<sup>Ver2.21</sup></div>
+        <div class="title">散触老黄历<sup>Ver2.22</sup></div>
         <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
         <div class="line-description">出发触S之前确定不看看么？</div>
         <div class="blank"></div>
@@ -2517,7 +2524,7 @@
               <li>点击[铁王八]按钮，输入剩余Ft并确定，可自动倒计时；</li>
               <li>已完成触发的服务器，可点击最右侧“-”号删除。</li>
               <li>
-                受Chrome等浏览器的省电策略影响，铁王八计时器可能出现倒计时不准确或暂停工作的情况。
+                受Chrome等浏览器的省电策略影响，铁王八计时器可能出现倒计时不准确或暂停工作的情况。<strong>点击倒计时文本可直接中断计时器</strong>。
               </li>
               <li>
                 本页面已采取有限手段来避免后台休眠，但作者强烈建议<strong>保持本页面活跃（如置顶本页面窗口、定时与本页面交互等）</strong>以确保计时器正常工作。
