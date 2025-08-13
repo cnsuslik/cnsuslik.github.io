@@ -2,8 +2,9 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>散触老黄历Ver2.22</title>
+    <title>散触老黄历Ver2.3</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?" />
+    <link rel="stylesheet" id="theme-style" href="day.css" />
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
       //
@@ -30,7 +31,7 @@
         (today.getMonth() + 1) * 100 +
         today.getDate();
 
-      const maintainday = 20250812;
+      const maintainday = 20250422;
 
       var weeks = ["日", "一", "二", "三", "四", "五", "六"];
       var directions = [
@@ -1748,670 +1749,68 @@
           SelectWorld.add(option);
         }
       }
+
+      function toggleTheme() {
+        var themeStyle = document.getElementById("theme-style");
+        var switchBtn = document.getElementById("switchButton");
+        if (themeStyle.getAttribute("href") === "day.css") {
+          themeStyle.setAttribute("href", "night.css");
+          switchBtn.textContent = "夜间模式：ON";
+        } else {
+          themeStyle.setAttribute("href", "day.css");
+          switchBtn.textContent = "夜间模式：OFF";
+        }
+      }
     </script>
 
     <style type="text/css">
-      body * {
-        font-family: "Consolas", "Microsoft Yahei", Arial, sans-serif;
-      }
-
-      body {
-        background: white;
-        margin: 0;
-        padding: 0;
-      }
-
-      .nameinput {
-        outline-style: none;
-        border: 1px solid #555;
-        border-top: 0px;
-        border-left: 0px;
-        border-right: 0px;
-        padding: 1px;
-        width: 110px;
-        font-size: 13px;
-        color: #555;
-        font-family: "Consolas", "Microsoft Yahei", Arial, sans-serif;
-        text-align: center;
-        font-weight: bold;
-        background: #f3f3f3;
-      }
-
-      .nameinput::placeholder {
-        color: #969696;
-        font-size: 13px;
-        font-family: "Consolas", "Microsoft Yahei", Arial, sans-serif;
-        font-weight: bold;
-      }
-
-      .nameinput:focus {
-        border: 2px solid #555;
-        border-top: 0px;
-        border-left: 0px;
-        border-right: 0px;
-      }
-
-      .container {
-        width: 500px;
-        float: left;
-      }
-
-      .container > .title {
-        color: #bbb;
-        font-weight: bold;
-        margin-bottom: 10px;
-        background: #555;
-        padding: 5px 15px;
-      }
-
-      .adlink {
-        text-align: center;
-        font-size: 11pt;
-      }
-
-      .adlink a {
-        text-decoration: none;
-        display: block;
-        color: #666;
-        font-weight: bold;
-        margin-bottom: 10px;
-        background: #eee;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 10pt;
-        margin-top: 10pt;
-      }
-
-      .date {
-        font-size: 16pt;
-        font-weight: bold;
-        line-height: 32pt;
-        text-align: center;
-      }
-
-      .someday .date {
-        font-size: 15pt;
-        font-weight: bold;
-        line-height: 22pt;
-        text-align: center;
-      }
-
-      .split,
-      .clear {
-        clear: both;
-        height: 5px;
-        overflow-y: hidden;
-      }
-
-      .blank {
-        clear: both;
-        height: 30px;
-        overflow-y: hidden;
-      }
-
-      .good,
-      .bad {
-        clear: both;
-        position: relative;
-      }
-
-      .bad {
-        /*top: -1px;*/
-      }
-
-      .good .title,
-      .bad .title {
-        float: left;
-        width: 100px;
-        font-weight: bold;
-        text-align: center;
-        font-size: 30pt;
-        position: absolute;
-        top: 0;
-        bottom: 0;
-      }
-
-      .good .title > table,
-      .bad .title > table {
-        position: absolute;
+      .top {
+        height: 40px;
         width: 100%;
-        height: 100%;
-        border: none;
-      }
-
-      .good .title {
-        background: #ffee44;
-        border-radius: 10px 0px 0px 0px;
-      }
-
-      .someday .good .title {
-        background: #aaaaaa;
-        border-radius: 10px 0px 0px 0px;
-      }
-
-      .bad .title {
-        background: #ff4444;
-        color: #fff;
-        border-radius: 0px 0px 0px 10px;
-      }
-
-      .someday .bad .title {
-        background: #666666;
-        color: #fff;
-        border-radius: 0px 0px 0px 10px;
-      }
-
-      .good .content {
-        margin-left: 115px;
-        padding-right: 10px;
-        padding-top: 12px;
-        padding-bottom: 8px;
-        font-size: 15pt;
-      }
-
-      .bad .content {
-        margin-left: 115px;
-        padding-right: 10px;
-        padding-top: 12px;
-        padding-bottom: 8px;
-        font-size: 15pt;
-      }
-
-      .someday .good {
-        background: #dddddd;
-      }
-
-      .someday .bad {
-        background: #aaaaaa;
-      }
-
-      .good {
-        background: #ffffaa;
-        border-radius: 10px 10px 0px 0px;
-      }
-
-      .bad {
-        background: #ffddd3;
-        border-radius: 0px 0px 10px 10px;
-      }
-
-      .content ul {
-        list-style: none;
-        margin: 10px 0 0;
-        padding: 0;
-      }
-
-      .content ul li {
-        line-height: 150%;
-        font-size: 15pt;
-        font-weight: bold;
-        color: #444;
-      }
-
-      .content ul li div.description {
-        font-size: 11pt;
-        font-weight: normal;
-        color: #777;
-        line-height: 110%;
-        margin-bottom: 10px;
-      }
-
-      .line-tip {
-        font-size: 11pt;
-        margin-top: 10px;
-        margin-left: 10px;
-      }
-
-      .line-description {
-        font-size: 9pt;
-        margin-top: 7px;
-        margin-left: 10px;
-      }
-
-      .direction_value {
-        color: #4a4;
-        font-weight: bold;
-      }
-
-      .bbq_value {
-        font-weight: bold;
-      }
-
-      .drink_value {
-        font-weight: bold;
-      }
-
-      .title_value {
-        font-weight: bold;
-      }
-
-      .someday .direction_value {
-        color: #888;
-      }
-
-      .goddes_value {
-        color: #f87;
-      }
-
-      .someday .goddes_value {
-        color: #777;
-      }
-
-      .comment {
-        margin-top: 50px;
-        font-size: 11pt;
-        margin-left: 10px;
-      }
-
-      .comment ul {
         margin-left: 0;
-        padding-left: 20px;
-        color: #999;
+        position: fixed;
+        top: 0;
+        margin-bottom: 50px;
+        background: #222;
+        border-bottom: 1px solid #ccc;
       }
 
-      .usernamebox {
-        font-size: 11pt;
-        text-align: center;
-        line-height: 20px;
-        font-weight: Bold;
-        color: #555;
-        font-family: "Consolas", "Microsoft Yahei", Arial, sans-serif;
+      .box-top {
+        width: 1000px;
+        margin: 0 auto 50px;
+        padding-top: 8px;
+        padding-bottom: 5px;
       }
 
-      .titlebox {
-        border: 3px solid #353535;
-        background: #f3f3f3;
-        /*box-shadow: 0px 0px 15px 0px rgba(128, 128, 128, 0.1);*/
-        border-radius: 0px 10px 10px 0px;
-        border-bottom: 0px;
-        border-right: 0px;
-        border-top: 0px;
-        padding-top: 15px;
-        padding-bottom: 20px;
-        margin-bottom: 5px;
-      }
-
-      .toolcol {
-        width: 420px;
-        float: left;
-        padding-left: 80px;
-      }
-
-      .senmurvTimer {
-        width: 420px;
-      }
-
-      .senmurvTimer > .title {
-        color: #bbb;
-        font-weight: bold;
-        background: #555;
-        padding: 5px 15px;
-      }
-
-      .addbutton {
-        background: #f3f3f3;
-        height: 50px;
+      .switcher {
+        background: #333;
+        height: 25px;
         font-size: 11px;
-        line-height: 50px;
-        color: #555;
-        text-align: center;
-        border-radius: 10px;
-        width: 420px;
-        border: 0px;
-        margin-top: 5px;
-      }
-      .addbutton:hover {
-        background: #555;
-        color: #f3f3f3;
-      }
-
-      .row {
-        width: 420px;
-        height: 60px;
-        background: #ffffff;
-        border: 2px solid #555;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 5px;
-      }
-
-      .controls {
-        margin-left: auto;
-      }
-
-      .timer {
-        color: #353535;
-        font-size: 9pt;
-        margin-left: 35px;
-      }
-
-      .counter {
-        width: 30px;
-        font-weight: bold;
-        font-size: 15pt;
-        border-radius: 10px;
-        height: 30px;
-        border-radius: 4px;
-        text-align: center;
-        line-height: 30px;
-        margin-left: 15px;
-      }
-
-      .counter {
-        background: #353535;
         color: #fff;
-      }
-
-      .dcSel {
-        width: 420px;
-        height: 35px;
-        border: 1px solid #353535;
-        border-radius: 4px;
-        margin-bottom: 8px;
-        padding-left: 10px;
-      }
-
-      .worldSel {
-        width: 80px;
-        height: 30px;
-        border: 1px solid #353535;
-        border-radius: 4px;
-      }
-
-      .hidden {
-        display: none;
-      }
-
-      .time-input-group {
-        display: flex;
-        gap: 5px;
-        align-items: center;
-      }
-
-      .time-input {
-        width: 40px;
-        height: 23px;
         text-align: center;
-      }
-
-      .time-label::after {
-        content: "秒";
-        margin-left: -10px;
-        position: relative;
-        z-index: 1;
-      }
-
-      .eggtime {
-        width: 80px;
-        font-size: 9pt;
-        color: #353535;
-        padding-right: -30px;
-      }
-
-      .recbtn {
-        width: 60px;
-        height: 30px;
-        background: #353535;
-        border: 0px;
-        color: #ffffff;
-        border-radius: 4px;
-        font-weight: bold;
-        text-align: center;
-        margin-left: 5px;
-      }
-
-      .recbtn:hover {
-        background: #ffffff;
-        border: 2px solid #353535;
-        color: #353535;
-      }
-
-      .yesbtn {
-        width: 40px;
-        height: 30px;
-        background: #44a559;
-        border: 0px;
-        color: #ffffff;
-        border-radius: 4px;
-        font-weight: bold;
-        text-align: center;
-        margin-left: 2px;
-      }
-
-      .yesbtn:hover {
-        background: #ddd;
-        color: #353535;
-      }
-
-      .nobtn {
-        width: 40px;
-        height: 30px;
-        background: #bb3333;
-        border: 0px;
-        color: #ffffff;
-        border-radius: 4px;
-        font-weight: bold;
-        text-align: center;
-        margin-left: 2px;
-      }
-
-      .nobtn:hover {
-        background: #ddd;
-        color: #353535;
-      }
-
-      .delebtn {
-        background: #bb3333;
-        color: #ffffff;
-      }
-
-      .delebtn {
-        width: 24px;
-        height: 24px;
-        font-weight: bold;
-        font-size: 11pt;
-        border: 0px;
-        border-radius: 24px;
-        line-height: 24px;
-        margin-left: 10px;
-        margin-right: 15px;
-      }
-
-      .delebtn:hover {
-        background: #b2b2b2;
-        color: #e7e7e7;
-      }
-
-      .commenttools {
-        margin-top: 20px;
-        font-size: 9pt;
-        margin-left: 4px;
-      }
-
-      .commenttools ul {
-        margin-left: 0;
-        padding-left: 20px;
-        padding-right: 12px;
-        color: #999;
-      }
-
-      .farmCalc {
-        width: 420px;
-        margin-top: 50px;
-      }
-
-      .farmCalc > .title {
-        color: #bbb;
-        font-weight: bold;
-        background: #555;
-        padding: 5px 15px;
-      }
-
-      .farmRow {
-        width: 420px;
-        height: 60px;
-        background: #f3f3f3;
-        border: 0px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 5px;
-      }
-
-      .farmbuttonBad {
-        background: #f3f3f3;
-        height: 50px;
-        font-size: 11px;
-        line-height: 50px;
-        color: #555;
-        text-align: center;
-        border-radius: 10px;
-        width: 205px;
-        border: 0px;
-        float: left;
-      }
-
-      .farmbuttonBad:hover {
-        background: #bb3333;
-        color: #eee;
-      }
-
-      .farmbuttonGood {
-        background: #f3f3f3;
-        height: 50px;
-        font-size: 11px;
-        line-height: 50px;
-        color: #555;
-        text-align: center;
-        border-radius: 10px;
-        width: 205px;
-        border: 0px;
-        margin-left: 10px;
-      }
-
-      .farmbuttonGood:hover {
-        background: #44a559;
-        color: #f3f3f3;
-      }
-
-      .worldSelFarm {
-        width: 80px;
-        height: 30px;
-        color: #353535;
-        background: #f3f3f3;
-        border: 1px solid #353535;
-        border-radius: 4px;
-      }
-
-      .farmSel {
+        border-radius: 3px;
         width: 100px;
-        height: 30px;
-        color: #353535;
-        background: #f3f3f3;
-        border: 1px solid #353535;
-        border-radius: 4px;
-        text-align: center;
-      }
-
-      .failed {
-        width: 45px;
+        border: 1px solid #fff;
         font-weight: bold;
-        font-size: 15pt;
-        height: 60px;
-        border-radius: 10px 0px 0px 10px;
-        text-align: center;
-        line-height: 61px;
-        padding-left: 1px;
-        margin-right: 5px;
       }
 
-      .failed {
-        background: #bb3333;
-        color: #fff;
-      }
-
-      .succeed {
-        width: 45px;
-        font-weight: bold;
-        font-size: 15pt;
-        height: 60px;
-        border-radius: 10px 0px 0px 10px;
-        text-align: center;
-        line-height: 61px;
-        padding-left: 1px;
-        margin-right: 5px;
-      }
-
-      .succeed {
-        background: #44a559;
-        color: #fff;
-      }
-
-      .farmcount {
-        width: 70px;
-        height: 26px;
-        text-align: center;
-        border: 1px solid #353535;
-        border-radius: 4px;
-        background: #f3f3f3;
-        color: #353535;
-        font-size: 12pt;
-      }
-
-      .farmcount::placeholder {
-        font-size: 10pt;
-      }
-
-      .farmRes {
-        width: 420px;
-        border: 2px solid #353535;
-        border-left: 0px;
-        border-right: 0px;
-        border-bottom: 0px;
-        border-radius: 0px 0px 10px 10px;
-        background: #ffffff;
-        margin-top: 10px;
-        margin-bottom: -5px;
-      }
-
-      .farmRes ul {
-        color: #666;
-        margin-left: -35px;
-        margin-top: -2px;
-      }
-
-      .succnum {
-        font-weight: bold;
-        font-size: 15pt;
-        color: #44a559;
-      }
-
-      .failnum {
-        font-weight: bold;
-        font-size: 15pt;
-        color: #bb3333;
-      }
-
-      .restext {
-        margin-top: 15px;
-        font-size: 8pt;
-        text-align: center;
-      }
-
-      .restext2 {
-        font-size: 8pt;
-        padding-bottom: 15px;
-        text-align: center;
+      .switcher:hover {
+        background: #fff;
+        color: #555;
       }
     </style>
   </head>
   <body>
-    <div id="main" style="width: 1000px; margin: 0 auto 50px">
+    <div class="top">
+      <div class="box-top">
+        <button id="switchButton" class="switcher" onclick="toggleTheme()">
+          夜间模式：OFF
+        </button>
+      </div>
+    </div>
+    <div id="main" style="width: 1000px; margin: 0 auto 50px; margin-top: 80px">
       <div class="container">
-        <div class="title">散触老黄历<sup>Ver2.22</sup></div>
+        <div class="title">散触老黄历<sup>Ver2.3</sup></div>
         <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
         <div class="line-description">出发触S之前确定不看看么？</div>
         <div class="blank"></div>
