@@ -2,13 +2,12 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>散触老黄历Ver2.3</title>
+    <title>散触老黄历Ver2.31</title>
     <link rel="shortcut icon" type="image/x-icon" href="favicon.ico?" />
     <link rel="stylesheet" id="theme-style" href="day.css" />
     <script src="//code.jquery.com/jquery-3.6.0.min.js"></script>
     <script type="text/javascript">
       //
-      // 标签页心跳
       setInterval(function () {
         fetch("/heartbeat", { method: "POST" });
       }, 60000);
@@ -31,7 +30,7 @@
         (today.getMonth() + 1) * 100 +
         today.getDate();
 
-      const maintainday = 20250422;
+      const maintainday = 20250812;
 
       var weeks = ["日", "一", "二", "三", "四", "五", "六"];
       var directions = [
@@ -592,7 +591,7 @@
 
       var specials = [
         {
-          date: 20250511,
+          date: 20250817,
           type: "good",
           name: "跟车羊驼山",
           description: "嘟嘟嘟，羊驼山观光车！",
@@ -932,13 +931,7 @@
           today.getDate() +
           "日 星期" +
           weeks[today.getDay()];
-        // 特殊纪念日期添加文本
-        if (iday % 10000 == 512) {
-          datetext = datetext + "<br>一方有难，八方支援<br>—";
-        }
-        if (iday % 10000 == 918 || iday % 10000 == 1213) {
-          datetext = datetext + "<br>铭记历史，勿忘国耻<br>—";
-        }
+
         return datetext;
       }
 
@@ -1772,31 +1765,15 @@
         top: 0;
         margin-bottom: 50px;
         background: #222;
-        border-bottom: 1px solid #ccc;
+        box-shadow: #000 0 2px 2px -2px;
       }
 
       .box-top {
-        width: 1000px;
+        width: 100%;
         margin: 0 auto 50px;
         padding-top: 8px;
         padding-bottom: 5px;
-      }
-
-      .switcher {
-        background: #333;
-        height: 25px;
-        font-size: 11px;
-        color: #fff;
-        text-align: center;
-        border-radius: 3px;
-        width: 100px;
-        border: 1px solid #fff;
-        font-weight: bold;
-      }
-
-      .switcher:hover {
-        background: #fff;
-        color: #555;
+        padding-left: 20px;
       }
     </style>
   </head>
@@ -1810,7 +1787,7 @@
     </div>
     <div id="main" style="width: 1000px; margin: 0 auto 50px; margin-top: 80px">
       <div class="container">
-        <div class="title">散触老黄历<sup>Ver2.3</sup></div>
+        <div class="title">散触老黄历<sup>Ver2.31</sup></div>
         <div class="line-description">据说这是怪物猎人间代代相传的老黄历，</div>
         <div class="line-description">出发触S之前确定不看看么？</div>
         <div class="blank"></div>
